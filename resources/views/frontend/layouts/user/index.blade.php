@@ -1,32 +1,61 @@
 @php use App\Enums\KycStatus; @endphp
 <!DOCTYPE html>
-    <html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}">
 
-    {{-- Head Include Here --}}
-    @include('frontend.layouts.user.partials._head')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+{{-- Head Include Here --}}
+@include('frontend.layouts.user.partials._head')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    .left-menu-box li .active {
+        background: #e6513e;
+    }
+
+    .left-menu-box li a:hover {
+        background: #fbc76a !important;
+    }
+
+    .navbar-wrap {
+        padding: 1px 0px !important;
+    }
+
+    .mobile-navbar-area {
+        background: transparent !important;
+        padding-bottom: 0px !important;
+    }
+
+    .footer-area-mobile {
+        display: none !important;
+    }
+
+
+
+    .footer-area-mobile {
+        background: #e4422d !important;
+    }
+
+    .footer-area-mobile>ul>li>a>span {
+        font-size: 12px !important;
+        opacity: 1 !important;
+        color: white !important;
+    }
+
+    .footer-area-mobile>ul>li>a>svg {
+        color: white !important;
+    }
+</style>
+@if (!request()->routeIs('user.dashboard'))
     <style>
-        .left-menu-box li .active{
-            background: #e6513e;
-        }
-
-        .left-menu-box li a:hover{
-            background: #fbc76a !important;
-        }
-
-        .mobile-navbar-area, .footer-area-mobile{
-            background: #e4422d !important;
-        }
-        .footer-area-mobile > ul > li > a > span{
-            font-size: 12px !important;
-            opacity: 1 !important;
-            color: white !important;
-        }
-
-        .footer-area-mobile> ul> li> a> svg{
-            color: white !important;
+        @media (max-width: 768px) {
+            /* Apply margin-top only for non-dashboard pages */
+            #mainArea {
+                margin-top: 141px;
+            }
         }
     </style>
+@endif
+
 <style>
     /* Make the search input cleaner */
     .dataTables_filter input {
@@ -46,7 +75,8 @@
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background-color: #0d6efd; /* Bootstrap primary */
+        background-color: #0d6efd;
+        /* Bootstrap primary */
         color: white !important;
         border: 1px solid #0d6efd;
     }
@@ -57,9 +87,9 @@
         border: 1px solid #0b5ed7;
         cursor: pointer;
     }
-
 </style>
-    <body>
+
+<body>
 
     {{-- Header Include Here --}}
     @include('frontend.layouts.user.partials._navbar')
@@ -82,10 +112,10 @@
                 </div>
 
 
-                <div class="col-xl-9 col-lg-8  main-content @if(!request()->routeIs('user.dashboard')) mt-neg-120 @endif">
+                <div class="col-xl-9 col-lg-8  main-content @if (!request()->routeIs('user.dashboard')) mt-neg-120 @endif">
                     {{-- kyc notice card --}}
-                    @if(!auth()->user()->kycSubmission || auth()->user()->kycSubmission->status !== KycStatus::APPROVED)
-                        @if(isActive('user.settings.kyc.verify') !== 'active')
+                    @if (!auth()->user()->kycSubmission || auth()->user()->kycSubmission->status !== KycStatus::APPROVED)
+                        @if (isActive('user.settings.kyc.verify') !== 'active')
                             @include('frontend.user.dashboard.partials._kyc_notice_card')
                         @endif
                     @endif
@@ -103,5 +133,6 @@
     {{-- Scripts Include here --}}
     @include('frontend.layouts.user.partials._script')
 
-    </body>
+</body>
+
 </html>

@@ -26,10 +26,10 @@ class TransactionController extends Controller
             dateRange: request('daterange')
         );
 
-        $currency = Currency::where('status',1)->get();
+        $currency = Currency::where('status', 1)->get();
         $page_name = 'Monitoring';
 
-        return view('frontend.user.transaction.index', compact('transactions', 'currency','page_name'));
+        return view('frontend.user.transaction.index', compact('transactions', 'currency', 'page_name'));
     }
 
     public function successful()
@@ -41,12 +41,26 @@ class TransactionController extends Controller
             dateRange: request('daterange')
         );
 
-        $currency = Currency::where('status',1)->get();
+        $currency = Currency::where('status', 1)->get();
         $page_name = 'Successful Transactions';
 
-        return view('frontend.user.transaction.index', compact('transactions', 'currency','page_name'));
+        return view('frontend.user.transaction.index', compact('transactions', 'currency', 'page_name'));
     }
 
+    public function archived()
+    {
+        $transactions = Transaction::getTransactions(
+            user_id: auth()->user()->id,
+            status: null,
+            search: request('search'),
+            dateRange: request('daterange')
+        );
+
+        $currency = Currency::where('status', 1)->get();
+        $page_name = 'Archived Transactions';
+
+        return view('frontend.user.transaction.index', compact('transactions', 'currency', 'page_name'));
+    }
 
 
     /**
@@ -84,7 +98,7 @@ class TransactionController extends Controller
         } catch (Exception $e) {
 
             // Log the error and notify the user
-            Log::error('Transaction handling error: '.$e->getMessage());
+            Log::error('Transaction handling error: ' . $e->getMessage());
 
             throw new NotifyErrorException(__('An error occurred while processing the transaction.'));
         }
@@ -95,9 +109,9 @@ class TransactionController extends Controller
         // Retrieve the logo from the storage folder
         $logoPath = setting('logo'); // Assuming this returns a relative path like "logos/site-logo.png"
 
-        $fileContent = Storage::get('public/'.$logoPath);
-        $fileType    = pathinfo(Storage::path('public/'.$logoPath), PATHINFO_EXTENSION);
-        $siteLogo    = 'data:image/'.$fileType.';base64,'.base64_encode($fileContent);
+        $fileContent = Storage::get('public/' . $logoPath);
+        $fileType    = pathinfo(Storage::path('public/' . $logoPath), PATHINFO_EXTENSION);
+        $siteLogo    = 'data:image/' . $fileType . ';base64,' . base64_encode($fileContent);
 
         // Retrieve transaction data
         $transaction = Transaction::findTransaction($trx_id);
@@ -106,7 +120,7 @@ class TransactionController extends Controller
         $pdf = Pdf::loadView('general.pdf.transaction', compact('transaction', 'siteLogo'));
 
         // Return the PDF for download
-        return $pdf->download('transaction_receipt_'.$transaction->trx_id.'.pdf');
+        return $pdf->download('transaction_receipt_' . $transaction->trx_id . '.pdf');
     }
 
     private function approveTransaction($transaction, $remarks)

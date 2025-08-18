@@ -222,6 +222,7 @@ Route::prefix('user')->as('user.')->middleware(['auth', 'account.status.check', 
     Route::prefix('transaction')->as('transaction.')->controller(TransactionController::class)->group(function () {
         Route::get('index', [TransactionController::class, 'index'])->name('index');
         Route::get('successful', [TransactionController::class, 'successful'])->name('successful');
+        Route::get('archived', [TransactionController::class, 'archived'])->name('archived');
         Route::get('download-pdf/{trx_id}', [TransactionController::class, 'downloadPdf'])->name('download-pdf');
         Route::post('action', [TransactionController::class, 'handleAction'])->name('action');
     });
