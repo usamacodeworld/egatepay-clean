@@ -50,8 +50,8 @@
         <li class="mb-3">
             <a href="{{ route('user.dashboard') }}"
                 class="{{ request()->routeIs('user.dashboard') ? 'active-link' : '' }}">
-                <i class="fa-solid fa-gauge me-2"></i>
-                <span class="sidebar-text">Dashboard</span>
+                <x-icon name="dashboard-2" class="icon x-icon" /> Dashboard
+                {{-- <span class="sidebar-text">Dashboard</span> --}}
             </a>
         </li>
 
@@ -105,8 +105,7 @@
                     </a>
                 </li>
                 <li class="mb-2">
-                    <a href="{{ route('api-docs.index') }}"
-                        target="_blank">
+                    <a href="{{ route('api-docs.index') }}" target="_blank">
                         <i class="fa-solid fa-download me-2"></i>
                         <span class="sidebar-text">User Guide</span>
                     </a>
@@ -144,6 +143,12 @@
         .sidebar-child li a.active-link {
             background-color: #fec273;
             color: black;
+        }
+
+        .x-icon {
+            margin-right: 5px;
+            width: 16px;
+            height: 16px;
         }
     </style>
 

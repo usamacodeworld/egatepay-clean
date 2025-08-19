@@ -5,19 +5,25 @@
 {{-- Head Include Here --}}
 @include('frontend.layouts.user.partials._head')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    .left-menu-box li .active {
-        background: #e6513e;
-    }
-
-    .left-menu-box li a:hover {
-        background: #fbc76a !important;
-    }
-
     .navbar-wrap {
         padding: 1px 0px !important;
+    }
+
+    .navbar-area{
+        background: #D6DCFF;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .navbar-wrap{
+        border-bottom: none !important;
+    }
+
+    .navbar-area .header-right li .user{
+        border-left: none;
     }
 
     .mobile-navbar-area {
@@ -29,25 +35,14 @@
         display: none !important;
     }
 
-
-
-    .footer-area-mobile {
-        background: #e4422d !important;
-    }
-
-    .footer-area-mobile>ul>li>a>span {
-        font-size: 12px !important;
-        opacity: 1 !important;
-        color: white !important;
-    }
-
-    .footer-area-mobile>ul>li>a>svg {
-        color: white !important;
+    .card-title{
+        background: #eb4a32 !important;
     }
 </style>
 @if (!request()->routeIs('user.dashboard'))
     <style>
         @media (max-width: 768px) {
+
             /* Apply margin-top only for non-dashboard pages */
             #mainArea {
                 margin-top: 141px;

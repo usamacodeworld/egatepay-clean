@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $financialStats = $this->getFinancialStats($user, $relevantTypes);
         $staticStats    = $this->getStaticStats($user);
         $statistics     = array_merge($financialStats, $staticStats);
-
+        // dd($statistics);
         // Define week day order to maintain consistent order in the view.
         $dayOrder          = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $weeklyStats       = $this->getWeeklyTransactionStats($user, $dayOrder);
@@ -52,17 +52,18 @@ class DashboardController extends Controller
     private function getRelevantTransactionTypes(User $user): array
     {
         $types = [
-//            TrxType::DEPOSIT,
+            //            TrxType::DEPOSIT,
             TrxType::WITHDRAW,
-//            TrxType::SEND_MONEY,
-//            TrxType::REQUEST_MONEY,
-//            TrxType::EXCHANGE_MONEY,
-//            TrxType::RECEIVE_MONEY,
-//            TrxType::REWARD,
+            //            TrxType::SEND_MONEY,
+            //            TrxType::REQUEST_MONEY,
+            //            TrxType::EXCHANGE_MONEY,
+            //            TrxType::RECEIVE_MONEY,
+            //            TrxType::REWARD,
         ];
 
         if ($user->isMerchant()) {
             $types[] = TrxType::RECEIVE_PAYMENT;
+            $types[] = TrxType::RECEIVE_PAYMENT_TODAY;
         }
 
         return $types;
@@ -75,7 +76,7 @@ class DashboardController extends Controller
     {
         $transactions = $user->transactions()
             ->where('status', TrxStatus::COMPLETED)
-            ->whereIn('trx_type', $relevantTypes)
+            ->whereIn('trx_type', collect($relevantTypes)->filter(fn($t) => $t instanceof \App\Enums\TrxType)->pluck('value'))
             ->selectRaw('trx_type, currency, COALESCE(SUM(amount), 0) as total_amount')
             ->groupBy('trx_type', 'currency')
             ->get();
@@ -83,25 +84,56 @@ class DashboardController extends Controller
         $stats = [];
 
         foreach ($relevantTypes as $trxType) {
-            // Filter the transactions for the given type.
-            $filtered = $transactions->where('trx_type', $trxType);
+            // case 1: Enum Type
+            if ($trxType instanceof \App\Enums\TrxType) {
+                if ($trxType->value === 'receive_payment_today') {
+                    // Special logic for today’s receive_payment
+                    $todayTotal = $user->transactions()
+                        ->where('status', TrxStatus::COMPLETED)
+                        ->where('trx_type', 'receive_payment')
+                        ->whereDate('created_at', now()->toDateString())
+                        ->selectRaw('currency, COALESCE(SUM(amount), 0) as total_amount')
+                        ->groupBy('currency')
+                        ->get();
 
-            // Format the total amount using a helper function.
-            $formattedValue = $filtered->map(
-                fn ($row) => getSymbol($row->currency).number_format($row->total_amount, 2)
-            )->implode(', ');
+                    $formattedValue = $todayTotal->map(
+                        fn($row) => getSymbol($row->currency) . number_format($row->total_amount, 2)
+                    )->implode(', ');
 
-            $stats[] = [
-                'title'       => $trxType->label(),
-                'value'       => $formattedValue ?: getSymbol('USD').'0',
-                'icon'        => $trxType->icon(),
-                'color_class' => $trxType->kebabCase(),
-                'link'        => route('user.transaction.index'),
-            ];
+                    $stats[] = [
+                        'title'       => $trxType->label(),
+                        'value'       => $formattedValue ?: getSymbol('USD') . '0',
+                        'icon'        => $trxType->icon(),
+                        'color_class' => $trxType->kebabCase(),
+                        'link'        => route('user.transaction.index'),
+                    ];
+                } else {
+                    // Normal types
+                    $filtered = $transactions->where('trx_type', $trxType->value);
+
+                    $formattedValue = $filtered->map(
+                        fn($row) => getSymbol($row->currency) . number_format($row->total_amount, 2)
+                    )->implode(', ');
+
+                    $stats[] = [
+                        'title'       => $trxType->label(),
+                        'value'       => $formattedValue ?: getSymbol('USD') . '0',
+                        'icon'        => $trxType->icon(),
+                        'color_class' => $trxType->kebabCase(),
+                        'link'        => route('user.transaction.index'),
+                    ];
+                }
+            }
+
+            // case 2: Already prepared array (like Total Tickets, Merchant Shop etc.)
+            elseif (is_array($trxType)) {
+                $stats[] = $trxType;
+            }
         }
 
         return $stats;
     }
+
 
     /**
      * Retrieve static statistics for the user.
@@ -212,9 +244,9 @@ class DashboardController extends Controller
             ->selectRaw('currency, SUM(amount) as total')
             ->groupBy('currency')
             ->get()
-            ->map(fn ($row) => getSymbol($row->currency).number_format($row->total, 2))
+            ->map(fn($row) => getSymbol($row->currency) . number_format($row->total, 2))
             ->implode(', ');
 
-        return $total ?: getSymbol('USD').'0';
+        return $total ?: getSymbol('USD') . '0';
     }
 }

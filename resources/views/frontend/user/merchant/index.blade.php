@@ -59,11 +59,6 @@
                                         
                                         {{-- Action Buttons --}}
                                         <div class="d-flex gap-2">
-                                            <a href="{{ route('user.merchant.qr-payment', $merchant->id) }}" 
-                                               class="btn btn-outline-primary btn-sm flex-fill d-flex align-items-center justify-content-center">
-                                                <i class="fas fa-qrcode me-1"></i>
-                                                <span class="small">{{ __('QR') }}</span>
-                                            </a>
                                             <a href="{{ route('user.merchant.config', $merchant->id) }}" 
                                                class="btn btn-outline-info btn-sm flex-fill d-flex align-items-center justify-content-center">
                                                 <i class="fas fa-key me-1"></i>
@@ -105,9 +100,6 @@
                                         <x-badge :status="$merchant->status"/>
                                         
                                         <div class="d-flex gap-2 mt-2 justify-content-end">
-                                            <a href="{{ route('user.merchant.qr-payment', $merchant->id) }}" class="btn-qr">
-                                                <i class="fas fa-qrcode"></i> {{ __('QR Payment') }}
-                                            </a>
                                             <a href="{{ route('user.merchant.config', $merchant->id) }}" class="btn-config">
                                                 <i class="fas fa-key"></i> {{ __('Config') }}
                                             </a>

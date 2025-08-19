@@ -14,6 +14,7 @@ enum TrxType: string
     case VOUCHER          = 'voucher';
     case PAYMENT          = 'payment';
     case RECEIVE_PAYMENT  = 'receive_payment';
+    case RECEIVE_PAYMENT_TODAY = 'receive_payment_today'; // New type for today's received payments
     case ADD_BALANCE      = 'add_balance';
     case SUBTRACT_BALANCE = 'subtract_balance';
     case WITHDRAW         = 'withdraw';
@@ -44,6 +45,7 @@ enum TrxType: string
             self::VOUCHER          => __('Voucher'),
             self::PAYMENT          => __('Payment'),
             self::RECEIVE_PAYMENT  => __('Receive Payment'),
+            self::RECEIVE_PAYMENT_TODAY => __('Receive Payment Today'),
             self::ADD_BALANCE      => __('Add Balance'),
             self::SUBTRACT_BALANCE => __('Subtract Balance'),
             self::WITHDRAW         => __('Withdraw'),

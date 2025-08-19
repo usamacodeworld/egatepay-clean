@@ -63,6 +63,7 @@ use App\Enums\CurrencyEnum;
                                 <th>{{ __('Date & Time') }}</th>
                                 <th>{{ __('Merchant ID') }}</th>
                                 <th>{{ __('Payment Type') }}</th>
+                                <th>{{ __('Provider') }}</th>
                                 <th>{{ __('Transaction #') }}</th>
                                 <th>{{ __('Currency') }}</th>
                                 <th>{{ __('Amount') }}</th>
@@ -95,6 +96,7 @@ use App\Enums\CurrencyEnum;
                                     <td>{{ $transaction->created_at?->format('d M Y, h:i A') }}</td>
                                     <td>{{ $trxData['merchant_name'] ?? '-' }}</td>
                                     <td>{{ $transaction->trx_type->label() }}</td>
+                                    <td>{{ $transaction->provider }}</td>
                                     <td>{{ strtoupper($transaction->trx_id) }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ number_format($transaction->payable_amount, 2) }}</td>
