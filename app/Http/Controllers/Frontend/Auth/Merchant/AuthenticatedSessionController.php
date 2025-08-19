@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
             Auth::logout();
             notifyEvs('error', __('Please use regular user login for non-merchant accounts.'));
 
-            return redirect()->route('user.login');
+            return redirect()->route('merchant.login');
         }
 
         $request->session()->regenerate();

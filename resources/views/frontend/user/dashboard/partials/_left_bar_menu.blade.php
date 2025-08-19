@@ -49,20 +49,34 @@
                     <i class="fa fa-chevron-right arrow"></i>
                 </span>
                 <ul class="list-unstyled ms-3 mt-2 sidebar-child">
-                    <li>
-                        <a href="{{ route('user.merchant.index') }}" class="{{ isActive('user.merchant.index') }}">
-                            <i class="fa-solid fa-bars fa-lg me-2"></i> API Credentials
-                        </a>
-                    </li>
+                    @php
+                        // Check if the merchant exists
+                        $merchant = \App\Models\Merchant::where('user_id', auth()->user()->id)->first();
+                        $hasMerchant = $merchant ? true : false;
+                    @endphp
+                    @if ($hasMerchant)
+                        <li>
+                            <a href="{{ route('user.merchant.config', $merchant->id) }}"
+                                class="{{ isActive('user.merchant.config') }}">
+                                <i class="fa-solid fa-bars fa-lg me-2"></i> API Credentials
+                            </a>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ route('user.merchant.index') }}" class="{{ isActive('user.merchant.index') }}">
+                                <i class="fa-solid fa-bars fa-lg me-2"></i> Merchant Dashboard
+                            </a>
+                        </li>
+                    @endauth
                     <li>
                         <a href="{{ route('api-docs.index') }}" target="_blank">
                             <i class="fa-solid fa-download me-2"></i> User Guide
                         </a>
                     </li>
-                </ul>
-            </li>
-        @endcan
-    </ul>
+            </ul>
+        </li>
+    @endcan
+</ul>
 </div>
 
 <!-- Desktop JS for collapsible menus -->
@@ -78,94 +92,94 @@
 </script>
 
 <style>
-    .left-menu-box li a {
-        background: transparent;
-        color: white;
-        display: flex;
-        align-items: center;
-        padding: 10px 12px;
-        border-radius: 5px;
-    }
+.left-menu-box li a {
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 5px;
+}
 
-    .active {
-        background-color: #fec273 !important;
-        color: black !important;
-    }
+.active {
+    background-color: #fec273 !important;
+    color: black !important;
+}
 
-    /* Parent item */
-    .sidebar-parent {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        /* pushes arrow to right */
-        padding: 8px 12px;
-        border-radius: 5px;
-        color: white;
-    }
+/* Parent item */
+.sidebar-parent {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* pushes arrow to right */
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: white;
+}
 
-    .active-parent {
-        background-color: #fec273;
-        color: black;
-    }
+.active-parent {
+    background-color: #fec273;
+    color: black;
+}
 
-    /* Child menu */
-    .sidebar-child {
+/* Child menu */
+.sidebar-child {
+    display: none;
+}
+
+.sidebar-child.show {
+    display: block;
+}
+
+.sidebar-child li a {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #ccc;
+    background: #2a2a2a;
+    /* child background */
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.sidebar-child li a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Arrow rotation */
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+    transform: rotate(90deg);
+}
+
+.single-card-box {
+    background: #1d1d1d !important;
+    height: 100vh;
+    padding-top: 15px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .single-card-box {
         display: none;
     }
+}
 
-    .sidebar-child.show {
-        display: block;
-    }
+/* Disable hover effect for top-level sidebar links */
+.left-menu-box>li>a:hover {
+    background: transparent !important;
+    color: white !important;
+}
 
-    .sidebar-child li a {
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
-        font-size: 14px;
-        color: #ccc;
-        background: #2a2a2a;
-        /* child background */
-        border-radius: 4px;
-        margin-bottom: 4px;
-    }
-
-    .sidebar-child li a:hover {
-        color: white;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Arrow rotation */
-    .arrow {
-        transition: transform 0.3s ease;
-    }
-
-    .arrow.rotate {
-        transform: rotate(90deg);
-    }
-
-    .single-card-box {
-        background: #1d1d1d !important;
-        height: 100vh;
-        padding-top: 15px;
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-        .single-card-box {
-            display: none;
-        }
-    }
-
-    /* Disable hover effect for top-level sidebar links */
-    .left-menu-box>li>a:hover {
-        background: transparent !important;
-        color: white !important;
-    }
-
-    /* Keep hover effect for child links */
-    .sidebar-child li a:hover {
-        color: white;
-        background: rgba(255, 255, 255, 0.1);
-    }
+/* Keep hover effect for child links */
+.sidebar-child li a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
 </style>

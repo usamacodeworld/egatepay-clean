@@ -5,12 +5,12 @@ return [
         [
             'feature'     => 'account_status',
             'description' => 'Controls user login access.',
-            'status'      => true,
+            'status'      => false,
         ],
         [
             'feature'     => 'email_verification',
             'description' => 'Requires email verification to activate the account.',
-            'status'      => false,
+            'status'      => true,
         ],
         [
             'feature'     => 'kyc_verification',

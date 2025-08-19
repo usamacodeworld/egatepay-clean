@@ -41,11 +41,9 @@ class RegisteredUserController extends Controller
             'last_name'        => 'required|string|max:255',
             'username'         => 'required|string|max:255|unique:users,username',
             'email'            => 'required|email|unique:users,email',
-//            'business_name'    => 'required|string|max:255',
-//            'business_address' => 'nullable|string|max:255',
             'country'          => 'required|string',
             'phone'            => 'required|string',
-            // 'password'         => ['required', 'confirmed', Rules\Password::defaults()],
+
         ]);
 
         // 2. Parse country data
@@ -65,9 +63,8 @@ class RegisteredUserController extends Controller
             'phone'            => $formattedPhone,
             'role'             => UserRole::MERCHANT,
             'password'         => Hash::make('merchant_password_temp'),
-//            'business_name'    => $validated['business_name'],
-//            'business_address' => $validated['business_address'],
-            'status'=>  0,
+            'status' =>  0,
+            'email_verified_at' => now(),
         ]);
 
         // 6. Handle referral
@@ -89,7 +86,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
         event(new TransactionUpdated($user));
         UserFeature::syncWithConfigForUser($user->id);
-//        Auth::login($user);
+        //        Auth::login($user);
 
         notifyEvs('success', __('Our Team Will Contact your within 24 hours.'));
 

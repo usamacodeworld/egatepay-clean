@@ -14,6 +14,7 @@ use App\Models\DepositMethod;
 use App\Models\Merchant;
 use App\Models\Transaction as TransactionModel;
 use App\Models\Voucher;
+use App\Models\Wallet;
 use App\Services\Handlers\PaymentHandler;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -30,7 +31,6 @@ use Illuminate\Support\Str;
 use Payment;
 use Throwable;
 use Transaction;
-use Wallet;
 
 class MerchantPaymentReceiveController extends Controller
 {

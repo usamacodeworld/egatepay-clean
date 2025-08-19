@@ -14,11 +14,11 @@
                             <span class="d-none d-sm-inline">{{ __('Payments') }}</span>
                             <span class="d-sm-none">{{ __('Pay') }}</span>
                         </a>
-                        <a class="btn btn-light-primary btn-sm flex-fill flex-md-grow-0" href="{{ route('user.merchant.create') }}">
+                        {{-- <a class="btn btn-light-primary btn-sm flex-fill flex-md-grow-0" href="{{ route('user.merchant.create') }}">
                             <i class="fas fa-university me-1"></i> 
                             <span class="d-none d-sm-inline">{{ __('Create') }}</span>
                             <span class="d-sm-none">{{ __('New') }}</span>
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 

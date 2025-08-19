@@ -1,4 +1,18 @@
-@extends('frontend.layouts.user.index')@section('title', __('Settings'))@section('content') <div class="single-form-card">
+@extends('frontend.layouts.user.index')
+@section('title', __('Settings'))
+@section('content')
+    <style>
+        .tab-pane.active {
+            background: transparent !important;
+        }
+
+        .nav-link.flex-sm-fill.active {
+            background: black !important;
+            color: white !important;
+            border-bottom: 2px solid #eb4a32 !important;
+        }
+    </style>
+    <div class="single-form-card">
         <div class="card-main p-4">
             <div class="tab-area mb-3">
                 <nav class="nav nav-tabs bg-sky-2 rounded flex-column flex-sm-row flex-wrap text-center text-sm-start"> <a
@@ -19,4 +33,5 @@
                 </div>
             </div>
         </div>
-</div>@endsection
+    </div>
+@endsection

@@ -12,17 +12,17 @@
         padding: 1px 0px !important;
     }
 
-    .navbar-area{
+    .navbar-area {
         background: #D6DCFF;
         padding-top: 10px;
         padding-bottom: 10px;
     }
 
-    .navbar-wrap{
+    .navbar-wrap {
         border-bottom: none !important;
     }
 
-    .navbar-area .header-right li .user{
+    .navbar-area .header-right li .user {
         border-left: none;
     }
 
@@ -35,8 +35,13 @@
         display: none !important;
     }
 
-    .card-title{
+    .card-title {
         background: #eb4a32 !important;
+    }
+
+    .btn-primary {
+        background: #eb4a32 !important;
+
     }
 </style>
 @if (!request()->routeIs('user.dashboard'))

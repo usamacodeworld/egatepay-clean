@@ -41,40 +41,41 @@ use Illuminate\Support\Facades\Route;
 | Landing Page Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', HomeController::class)->name('home');
-Route::get('/contact-us', function (){
+Route::get('/contact-us', function () {
     return view('frontend.pages.contact-us');
 });
-Route::get('/merchants', function (){
+Route::get('/merchants', function () {
     return view('frontend.pages.merchants');
 });
-Route::get('/our-company', function (){
+Route::get('/our-company', function () {
     return view('frontend.pages.our-company');
 });
-Route::get('/payments', function (){
+Route::get('/payments', function () {
     return view('frontend.pages.payments');
 });
-Route::get('/resources', function (){
+Route::get('/resources', function () {
     return view('frontend.pages.resources');
 });
 
-Route::get('/terms-of-services', function (){
+Route::get('/terms-of-services', function () {
     return view('frontend.pages.terms-condition');
 });
 
-Route::get('/privacy-policy', function (){
+Route::get('/privacy-policy', function () {
     return view('frontend.pages.privacy-policy');
 });
 
-Route::get('/cookie-policy', function (){
+Route::get('/cookie-policy', function () {
     return view('frontend.pages.cookie-policy');
 });
 
-Route::get('/compliance', function (){
+Route::get('/compliance', function () {
     return view('frontend.pages.compliance');
 });
 
-Route::get('/licenses', function (){
+Route::get('/licenses', function () {
     return view('frontend.pages.licenses');
 });
 
@@ -187,7 +188,6 @@ Route::prefix('user')->as('user.')->middleware(['auth', 'account.status.check', 
 
             Route::get('withdraw/{card}', 'withdraw')->name('withdraw');
             Route::post('withdraw-store', 'withdrawStore')->name('withdraw-store');
-
         });
     });
 
@@ -245,7 +245,6 @@ Route::prefix('user')->as('user.')->middleware(['auth', 'account.status.check', 
         Route::get('{merchant}/qr-payment', [MerchantController::class, 'showQrForm'])->name('merchant.qr-payment');
         Route::post('{merchant}/qr-generate', [MerchantController::class, 'generateQr'])->name('merchant.qr-generate');
         Route::get('merchant-qr-history', [MerchantController::class, 'qrHistory'])->name('merchant.qr-history');
-
     });
 
     // Notification Management Routes

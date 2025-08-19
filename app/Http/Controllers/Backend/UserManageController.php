@@ -7,6 +7,8 @@ use App\Enums\AmountFlow;
 use App\Enums\Gender;
 use App\Enums\KycStatus;
 use App\Enums\TrxStatus;
+use App\Enums\MerchantStatus;
+use App\Models\Merchant;
 use App\Enums\TrxType;
 use App\Enums\UserStatus;
 use App\Exceptions\NotifyErrorException;
@@ -199,7 +201,7 @@ class UserManageController extends BaseController
                 $user->notify(new TemplateNotification(
                     identifier: 'admin_balance_added',
                     data: [
-                        'amount' => $amount.' '.$wallet->currency->code,
+                        'amount' => $amount . ' ' . $wallet->currency->code,
                         'admin'  => auth()->guard('admin')->user()->name,
                         'trx'    => $trx->trx_id,
                     ],
@@ -211,7 +213,7 @@ class UserManageController extends BaseController
                 $user->notify(new TemplateNotification(
                     identifier: 'admin_balance_subtracted',
                     data: [
-                        'amount' => $amount.' '.$wallet->currency->code,
+                        'amount' => $amount . ' ' . $wallet->currency->code,
                         'admin'  => auth()->guard('admin')->user()->name,
                         'trx'    => $trx->trx_id,
                     ],
@@ -225,7 +227,6 @@ class UserManageController extends BaseController
             notifyEvs('success', __('User balance updated successfully'));
 
             return redirect()->back();
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw new NotifyErrorException(__('An error occurred while updating balance.'));
@@ -256,6 +257,37 @@ class UserManageController extends BaseController
         // Check if account status is toggled
         if ($request->feature === 'account_status') {
             $user->status = $request->status ? UserStatus::ACTIVE : UserStatus::INACTIVE;
+
+            // Handle merchant record
+            $merchant = Merchant::where('user_id', $user->id)->first();
+
+            if ($request->status) {
+                // If account is active → create merchant record if not exists
+                if (! $merchant) {
+                    $validated = [
+                        'business_name'        => $user->first_name . ' ' . $user->last_name,
+                        'site_url'             => 'https://e-gatepay.net/'. $user->username,
+                        'currency_id'          => '1',
+                        'business_logo'        => null,
+                        'business_email'       => $user->email,
+                        'business_description' => null,
+                        'fee'                  => 0.00,
+                        'status'             => MerchantStatus::APPROVED,
+                    ];
+                    $validated['user_id'] = $user->id;
+                    Merchant::create($validated);
+                } else {
+                    // If exists, just update status
+                    $merchant->status = MerchantStatus::APPROVED;
+                    $merchant->save();
+                }
+            } else {
+                // If account is inactive → update merchant status if exists
+                if ($merchant) {
+                    $merchant->status = MerchantStatus::APPROVED;
+                    $merchant->save();
+                }
+            }
         }
 
         // Check if email verification is toggled
@@ -282,9 +314,11 @@ class UserManageController extends BaseController
         $user->save();
 
         return response()->json([
-            'type' => 'success', 'message' => __('Feature status updated successfully'),
+            'type'    => 'success',
+            'message' => __('Feature status updated successfully'),
         ]);
     }
+
 
     public function getUserTransactionSummaryChart(Request $request, $userId)
     {
@@ -315,7 +349,7 @@ class UserManageController extends BaseController
 
         foreach ($statuses as $key => $label) {
             $group  = $transactions[$key] ?? collect();
-            $counts = $dates->map(fn ($d) => (int) optional($group->firstWhere('date', $d))->total ?? 0);
+            $counts = $dates->map(fn($d) => (int) optional($group->firstWhere('date', $d))->total ?? 0);
 
             $series[] = [
                 'name' => $label,
