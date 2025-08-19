@@ -1,7 +1,7 @@
 <!-- Testing Section -->
 <section id="testing" class="content-section">
     <h2>{{ __('Interactive API Testing') }}</h2>
-    <p>{{ __('Test DigiKash API endpoints directly from this documentation. Use the demo credentials below for sandbox testing.') }}</p>
+    <p>{{ __('Test EGatePay API endpoints directly from this documentation. Use the demo credentials below for sandbox testing.') }}</p>
 
     {{-- Demo Payment Information Card --}}
     <div class="alert alert-info border-0 mb-4" style="background: linear-gradient(135deg, #e3f2fd, #f3e5f5);">
@@ -181,7 +181,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="ipnUrl" class="form-label">{{ __('IPN URL') }}</label>
-                            <input type="url" class="form-control" id="ipnUrl" placeholder="https://merchant.com/webhook/digikash">
+                            <input type="url" class="form-control" id="ipnUrl" placeholder="https://merchant.com/webhook/egatepay">
                         </div>
                     </div>
                     <div class="row">
@@ -261,7 +261,7 @@
                     <h5 class="mb-0"><i class="fas fa-flask me-2"></i>{{ __('Sandbox Environment') }}</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>{{ __('Base URL') }}:</strong> <code>https://digikash.coevs.com</code></p>
+                    <p><strong>{{ __('Base URL') }}:</strong> <code>https://e-gatepay.net</code></p>
                     <p><strong>{{ __('Environment Header') }}:</strong> <code>X-Environment: sandbox</code></p>
                     <p><strong>{{ __('Credentials') }}:</strong> {{ __('Use') }} <code>test_</code> {{ __('prefixed keys') }}</p>
                     <p><strong>{{ __('Purpose') }}:</strong> {{ __('Safe testing without real money') }}</p>
@@ -274,7 +274,7 @@
                     <h5 class="mb-0"><i class="fas fa-globe me-2"></i>{{ __('Production Environment') }}</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>{{ __('Base URL') }}:</strong> <code>https://digikash.coevs.com</code></p>
+                    <p><strong>{{ __('Base URL') }}:</strong> <code>https://e-gatepay.net</code></p>
                     <p><strong>{{ __('Environment Header') }}:</strong> <code>X-Environment: production</code></p>
                     <p><strong>{{ __('Credentials') }}:</strong> {{ __('No prefix for production keys') }}</p>
                     <p><strong>{{ __('Purpose') }}:</strong> {{ __('Live transactions with real money') }}</p>

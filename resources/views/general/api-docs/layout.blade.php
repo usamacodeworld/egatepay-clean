@@ -47,7 +47,7 @@
                 <button class="btn btn-outline-light d-lg-none me-2" type="button" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="{{ route('home') }}" class="btn btn-primary">
+                <a href="{{ route('home') }}" class="btn btn-primary" style="background: #fabe6e !important; border-color:#fabe6e !important">
                     <i class="fas fa-home me-1"></i>
                     <span class="d-none d-sm-inline">{{ __('Back to Site') }}</span>
                 </a>

@@ -3,6 +3,21 @@
 @section('title', 'E-Gatepay API Documentation')
 @section('description', 'Complete API documentation for E-Gatepay payment gateway integration with code examples for multiple platforms')
 @section('content')
+<style>
+    .card-header{
+        background: #e2402c !important;
+        color: white !important;
+    }
+
+    .copy-btn, .api-navbar, .scroll-top-btn{
+        background: #e2402c !important;
+
+    }
+
+    .btn-primary{
+        background: #e2402c !important;
+    }
+</style>
 
 @include('general.api-docs.sections.overview')
 @include('general.api-docs.sections.authentication')

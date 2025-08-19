@@ -1,7 +1,7 @@
 <!-- Webhooks Section -->
 <section id="webhooks" class="content-section">
     <h2>{{ __('Webhooks (IPN)') }}</h2>
-    <p>{{ __('DigiKash sends real-time notifications to your specified IPN URL when payment status changes. This ensures you\'re immediately notified of payment completions, failures, and other status updates.') }} <strong>{{ __('Webhooks work identically in both sandbox and production environments.') }}</strong></p>
+    <p>{{ __('EGatePay sends real-time notifications to your specified IPN URL when payment status changes. This ensures you\'re immediately notified of payment completions, failures, and other status updates.') }} <strong>{{ __('Webhooks work identically in both sandbox and production environments.') }}</strong></p>
 
     <!-- Environment Notice -->
     <div class="alert alert-info mb-4">
@@ -9,7 +9,7 @@
             <i class="fas fa-info-circle me-3"></i>
             <div>
                 <h6 class="mb-1">{{ __('Environment-Aware Webhooks') }}</h6>
-                <p class="mb-0">{{ __('Use the same webhook URL for both sandbox and production. DigiKash will include environment context in webhook payloads to help you differentiate between test and live transactions.') }}</p>
+                <p class="mb-0">{{ __('Use the same webhook URL for both sandbox and production. EGatePay will include environment context in webhook payloads to help you differentiate between test and live transactions.') }}</p>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
     <!-- Webhook Overview -->
     <div class="api-alert api-alert-info">
         <strong><i class="fas fa-info-circle me-2"></i>{{ __('Reliable Delivery') }}</strong>
-        {{ __('DigiKash implements retry logic for failed webhook deliveries. We\'ll retry up to 5 times with exponential backoff.') }}
+        {{ __('EGatePay implements retry logic for failed webhook deliveries. We\'ll retry up to 5 times with exponential backoff.') }}
     </div>
 
     <!-- Webhook Headers -->
@@ -112,7 +112,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Enums\EnvironmentMode;
 
-class DigiKashWebhookController extends Controller
+class EGatePayWebhookController extends Controller
 {
     public function handle(Request $request)
     {
@@ -126,7 +126,7 @@ class DigiKashWebhookController extends Controller
         
         // {{ __('Verify signature') }}
         if (!$this->verifySignature($request->getContent(), $signature, $secret)) {
-            Log::warning('{{ __('DigiKash webhook signature verification failed') }}', [
+            Log::warning('{{ __('EGatePay webhook signature verification failed') }}', [
                 'webhook_id' => $webhookId,
                 'environment' => $environment
             ]);
@@ -148,8 +148,8 @@ class DigiKashWebhookController extends Controller
     {
         // {{ __('Return test secret for sandbox, live secret for production') }}
         return $environment === 'sandbox' 
-            ? config('digikash.test_webhook_secret')
-            : config('digikash.webhook_secret');
+            ? config('egatepay.test_webhook_secret')
+            : config('egatepay.webhook_secret');
     }
     
     private function verifySignature(string $payload, string $signature, string $secret): bool
@@ -192,7 +192,7 @@ const EnvironmentMode = {
 };
 
 // {{ __('Webhook handler') }}
-app.post('/api/webhooks/digikash', async (req, res) => {
+app.post('/api/webhooks/egatepay', async (req, res) => {
     const environment = req.headers['x-environment'] || 'production';
     const signature = req.headers['x-signature'];
     const webhookId = req.headers['x-webhook-id'];
@@ -202,7 +202,7 @@ app.post('/api/webhooks/digikash', async (req, res) => {
     
     // {{ __('Verify signature') }}
     if (!verifySignature(JSON.stringify(req.body), signature, secret)) {
-        console.warn('{{ __('DigiKash webhook signature verification failed') }}', {
+        console.warn('{{ __('EGatePay webhook signature verification failed') }}', {
             webhook_id: webhookId,
             environment: environment
         });
@@ -230,8 +230,8 @@ app.post('/api/webhooks/digikash', async (req, res) => {
 function getSecretForEnvironment(environment) {
     // {{ __('Return test secret for sandbox, live secret for production') }}
     return environment === 'sandbox' 
-        ? process.env.DIGIKASH_TEST_WEBHOOK_SECRET
-        : process.env.DIGIKASH_WEBHOOK_SECRET;
+        ? process.env.EGATEPAY_TEST_WEBHOOK_SECRET
+        : process.env.EGATEPAY_WEBHOOK_SECRET;
 }
 
 function verifySignature(payload, signature, secret) {
@@ -285,7 +285,7 @@ ENVIRONMENT_MODE = {
 
 @csrf_exempt
 @require_http_methods(["POST"])
-def digikash_webhook(request):
+def egatepay_webhook(request):
     environment = request.headers.get('X-Environment', 'production')
     signature = request.headers.get('X-Signature', '')
     webhook_id = request.headers.get('X-Webhook-ID')
@@ -295,7 +295,7 @@ def digikash_webhook(request):
     
     // {{ __('Verify signature') }}
     if not verify_signature(request.body, signature, secret):
-        logger.warning('{{ __('DigiKash webhook signature verification failed') }}', extra={
+        logger.warning('{{ __('EGatePay webhook signature verification failed') }}', extra={
             'webhook_id': webhook_id,
             'environment': environment
         })
@@ -321,9 +321,9 @@ def get_secret_for_environment(environment):
     from django.conf import settings
     
     // {{ __('Return test secret for sandbox, live secret for production') }}
-    return (settings.DIGIKASH_TEST_WEBHOOK_SECRET 
+    return (settings.EGATEPAY_TEST_WEBHOOK_SECRET 
             if environment == 'sandbox' 
-            else settings.DIGIKASH_WEBHOOK_SECRET)
+            else settings.EGATEPAY_WEBHOOK_SECRET)
 
 def verify_signature(payload, signature, secret):
     if not signature:

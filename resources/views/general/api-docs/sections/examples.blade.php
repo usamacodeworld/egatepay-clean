@@ -42,7 +42,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Exception;
 
-class DigiKashService
+class EGatePayService
 {
     private string $baseUrl;
     private string $merchantKey;
@@ -51,10 +51,10 @@ class DigiKashService
 
     public function __construct()
     {
-        $this->baseUrl = config('digikash.base_url');
-        $this->merchantKey = config('digikash.merchant_key');
-        $this->apiKey = config('digikash.api_key');
-        $this->environment = config('digikash.environment'); // 'sandbox' or 'production'
+        $this->baseUrl = config('e_gatepay.base_url');
+        $this->merchantKey = config('e_gatepay.merchant_key');
+        $this->apiKey = config('e_gatepay.api_key');
+        $this->environment = config('e_gatepay.environment'); // 'sandbox' or 'production'
     }
 
     public function initiatePayment(array $paymentData): array
@@ -73,7 +73,7 @@ class DigiKashService
 
             throw new Exception('Payment initiation failed');
         } catch (Exception $e) {
-            throw new Exception('DigiKash API Error: ' . $e->getMessage());
+            throw new Exception('EGatePay API Error: ' . $e->getMessage());
         }
     }
 
@@ -93,23 +93,23 @@ class DigiKashService
 
             throw new Exception('Payment verification failed');
         } catch (Exception $e) {
-            throw new Exception('DigiKash API Error: ' . $e->getMessage());
+            throw new Exception('EGatePay API Error: ' . $e->getMessage());
         }
     }
 }
 
-// Configuration (config/digikash.php)
+// Configuration (config/EGatePay.php)
 return [
-    'base_url' => env('DIGIKASH_BASE_URL', 'https://digikash.coevs.com'),
-    'environment' => env('DIGIKASH_ENVIRONMENT', 'sandbox'), // sandbox or production
-    'merchant_key' => env('DIGIKASH_MERCHANT_KEY'), // Use appropriate prefix
-    'api_key' => env('DIGIKASH_API_KEY'), // Use appropriate prefix
+    'base_url' => env('EGATEPAY_BASE_URL', 'https://e-gatepay.net'),
+    'environment' => env('EGATEPAY_ENVIRONMENT', 'sandbox'), // sandbox or production
+    'merchant_key' => env('EGATEPAY_MERCHANT_KEY'), // Use appropriate prefix
+    'api_key' => env('EGATEPAY_API_KEY'), // Use appropriate prefix
 ];
 
 // Usage in Controller
 class PaymentController extends Controller
 {
-    public function initiatePayment(Request $request, DigiKashService $digikash)
+    public function initiatePayment(Request $request, EGatePayService $egatepay)
     {
         $paymentData = [
             'payment_amount' => $request->amount,
@@ -119,11 +119,11 @@ class PaymentController extends Controller
             'success_redirect' => route('payment.success'),
             'failure_url' => route('payment.failed'),
             'cancel_redirect' => route('payment.cancelled'),
-            'ipn_url' => route('webhooks.digikash'),
+            'ipn_url' => route('webhooks.egatepay'),
         ];
 
         try {
-            $result = $digikash->initiatePayment($paymentData);
+            $result = $egatepay->initiatePayment($paymentData);
             return redirect($result['payment_url']);
         } catch (Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
@@ -137,12 +137,12 @@ class PaymentController extends Controller
                     <pre><code class="javascript">// Node.js Integration Service
 const axios = require('axios');
 
-class DigiKashService {
+class EGatePayService {
     constructor() {
-        this.baseUrl = process.env.DIGIKASH_BASE_URL || 'https://digikash.coevs.com';
-        this.environment = process.env.DIGIKASH_ENVIRONMENT || 'sandbox'; // sandbox or production
-        this.merchantKey = process.env.DIGIKASH_MERCHANT_KEY; // Use appropriate prefix
-        this.apiKey = process.env.DIGIKASH_API_KEY; // Use appropriate prefix
+        this.baseUrl = process.env.EGATEPAY_BASE_URL || 'https://e-gatepay.net';
+        this.environment = process.env.EGATEPAY_ENVIRONMENT || 'sandbox'; // sandbox or production
+        this.merchantKey = process.env.EGATEPAY_MERCHANT_KEY; // Use appropriate prefix
+        this.apiKey = process.env.EGATEPAY_API_KEY; // Use appropriate prefix
     }
 
     async initiatePayment(paymentData) {
@@ -158,7 +158,7 @@ class DigiKashService {
 
             return response.data;
         } catch (error) {
-            throw new Error(`DigiKash API Error: ${error.message}`);
+            throw new Error(`EGatePay API Error: ${error.message}`);
         }
     }
 
@@ -175,7 +175,7 @@ class DigiKashService {
 
             return response.data;
         } catch (error) {
-            throw new Error(`DigiKash API Error: ${error.message}`);
+            throw new Error(`EGatePay API Error: ${error.message}`);
         }
     }
 }
@@ -183,7 +183,7 @@ class DigiKashService {
 // Express.js Route Example
 const express = require('express');
 const app = express();
-const digikash = new DigiKashService();
+const egatepay = new EGatePayService();
 
 app.post('/initiate-payment', async (req, res) => {
     const paymentData = {
@@ -194,18 +194,18 @@ app.post('/initiate-payment', async (req, res) => {
         success_redirect: `${req.protocol}://${req.get('host')}/payment/success`,
         failure_url: `${req.protocol}://${req.get('host')}/payment/failed`,
         cancel_redirect: `${req.protocol}://${req.get('host')}/payment/cancelled`,
-        ipn_url: `${req.protocol}://${req.get('host')}/webhooks/digikash`,
+        ipn_url: `${req.protocol}://${req.get('host')}/webhooks/egatepay`,
     };
 
     try {
-        const result = await digikash.initiatePayment(paymentData);
+        const result = await egatepay.initiatePayment(paymentData);
         res.redirect(result.payment_url);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-module.exports = DigiKashService;</code></pre>
+module.exports = EGatePayService;</code></pre>
                 </div>
             </div>
             <div class="tab-pane fade" id="example-python">
@@ -215,12 +215,12 @@ import os
 import requests
 from django.conf import settings
 
-class DigiKashService:
+class EGatePayService:
     def __init__(self):
-        self.base_url = getattr(settings, 'DIGIKASH_BASE_URL', 'https://digikash.coevs.com')
-        self.environment = getattr(settings, 'DIGIKASH_ENVIRONMENT', 'sandbox')  # sandbox or production
-        self.merchant_key = getattr(settings, 'DIGIKASH_MERCHANT_KEY')  # Use appropriate prefix
-        self.api_key = getattr(settings, 'DIGIKASH_API_KEY')  # Use appropriate prefix
+        self.base_url = getattr(settings, 'EGATEPAY_BASE_URL', 'https://e-gatepay.net')
+        self.environment = getattr(settings, 'EGATEPAY_ENVIRONMENT', 'sandbox')  # sandbox or production
+        self.merchant_key = getattr(settings, 'EGATEPAY_MERCHANT_KEY')  # Use appropriate prefix
+        self.api_key = getattr(settings, 'EGATEPAY_API_KEY')  # Use appropriate prefix
 
     def initiate_payment(self, payment_data):
         try:
@@ -242,7 +242,7 @@ class DigiKashService:
             return response.json()
 
         except requests.RequestException as e:
-            raise Exception(f'DigiKash API Error: {str(e)}')
+            raise Exception(f'EGatePay API Error: {str(e)}')
 
     def verify_payment(self, transaction_id):
         try:
@@ -263,13 +263,13 @@ class DigiKashService:
             return response.json()
 
         except requests.RequestException as e:
-            raise Exception(f'DigiKash API Error: {str(e)}')
+            raise Exception(f'EGatePay API Error: {str(e)}')
 
 # Django Settings Configuration
-DIGIKASH_BASE_URL = 'https://digikash.coevs.com'
-DIGIKASH_ENVIRONMENT = 'sandbox'  # Change to 'production' for live
-DIGIKASH_MERCHANT_KEY = os.environ.get('DIGIKASH_MERCHANT_KEY')  # Use appropriate prefix
-DIGIKASH_API_KEY = os.environ.get('DIGIKASH_API_KEY')  # Use appropriate prefix
+EGATEPAY_BASE_URL = 'https://e-gatepay.net'
+EGATEPAY_ENVIRONMENT = 'sandbox'  # Change to 'production' for live
+EGATEPAY_MERCHANT_KEY = os.environ.get('EGATEPAY_MERCHANT_KEY')  # Use appropriate prefix
+EGATEPAY_API_KEY = os.environ.get('EGATEPAY_API_KEY')  # Use appropriate prefix
 
 # Django View Example
 from django.shortcuts import redirect
@@ -277,7 +277,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-digikash = DigiKashService()
+egatepay = EGatePayService()
 
 @csrf_exempt
 def initiate_payment(request):
@@ -292,11 +292,11 @@ def initiate_payment(request):
             'success_redirect': request.build_absolute_uri('/payment/success/'),
             'failure_url': request.build_absolute_uri('/payment/failed/'),
             'cancel_redirect': request.build_absolute_uri('/payment/cancelled/'),
-            'ipn_url': request.build_absolute_uri('/webhooks/digikash/'),
+            'ipn_url': request.build_absolute_uri('/webhooks/egatepay/'),
         }
 
         try:
-            result = digikash.initiate_payment(payment_data)
+            result = egatepay.initiate_payment(payment_data)
             return redirect(result['payment_url'])
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)</code></pre>
@@ -305,16 +305,16 @@ def initiate_payment(request):
             <div class="tab-pane fade" id="example-curl">
                 <div class="code-block">
                     <pre><code class="bash"># Environment Variables Setup
-export DIGIKASH_ENVIRONMENT="sandbox"  # or "production"
-export DIGIKASH_MERCHANT_KEY="test_merchant_your_key"  # or "merchant_your_key" for production
-export DIGIKASH_API_KEY="test_your_api_key"  # or "your_api_key" for production
+export EGATEPAY_ENVIRONMENT="sandbox"  # or "production"
+export EGATEPAY_MERCHANT_KEY="test_merchant_your_key"  # or "merchant_your_key" for production
+export EGATEPAY_API_KEY="test_your_api_key"  # or "your_api_key" for production
 
 # Initiate Payment
-curl -X POST "https://digikash.coevs.com/api/v1/initiate-payment" \
+curl -X POST "https://e-gatepay.net/api/v1/initiate-payment" \
   -H "Content-Type: application/json" \
-  -H "X-Environment: $DIGIKASH_ENVIRONMENT" \
-  -H "X-Merchant-Key: $DIGIKASH_MERCHANT_KEY" \
-  -H "X-API-Key: $DIGIKASH_API_KEY" \
+  -H "X-Environment: $EGATEPAY_ENVIRONMENT" \
+  -H "X-Merchant-Key: $EGATEPAY_MERCHANT_KEY" \
+  -H "X-API-Key: $EGATEPAY_API_KEY" \
   -d '{
     "payment_amount": 250.00,
     "currency_code": "USD",
@@ -323,15 +323,15 @@ curl -X POST "https://digikash.coevs.com/api/v1/initiate-payment" \
     "success_redirect": "https://yoursite.com/payment/success",
     "failure_url": "https://yoursite.com/payment/failed",
     "cancel_redirect": "https://yoursite.com/payment/cancelled",
-    "ipn_url": "https://yoursite.com/api/webhooks/digikash"
+    "ipn_url": "https://yoursite.com/api/webhooks/egatepay"
   }'
 
 # Verify Payment
-curl -X GET "https://digikash.coevs.com/api/v1/verify-payment/TXNQ5V8K2L9N3XM1" \
+curl -X GET "https://e-gatepay.net/api/v1/verify-payment/TXNQ5V8K2L9N3XM1" \
   -H "Accept: application/json" \
-  -H "X-Environment: $DIGIKASH_ENVIRONMENT" \
-  -H "X-Merchant-Key: $DIGIKASH_MERCHANT_KEY" \
-  -H "X-API-Key: $DIGIKASH_API_KEY"
+  -H "X-Environment: $EGATEPAY_ENVIRONMENT" \
+  -H "X-Merchant-Key: $EGATEPAY_MERCHANT_KEY" \
+  -H "X-API-Key: $EGATEPAY_API_KEY"
 
 # Environment-specific credential examples:
 # Sandbox: test_merchant_xxxxx, test_api_key_xxxxx

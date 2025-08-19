@@ -1,7 +1,7 @@
 <!-- WooCommerce Integration Section -->
 <section id="woocommerce-integration" class="content-section">
     <h2><i class="fa-brands fa-wordpress text-info me-2"></i>WooCommerce Integration</h2>
-    <p>Complete integration guide for DigiKash payment gateway with WooCommerce. Follow best practices for secure and reliable payment processing.</p>
+    <p>Complete integration guide for EGatePay payment gateway with WooCommerce. Follow best practices for secure and reliable payment processing.</p>
 
     <div class="woocommerce-integration-section">
         <!-- Professional Header Section -->
@@ -12,7 +12,7 @@
                 </div>
                 <div class="header-text">
                     <h3>WooCommerce Integration</h3>
-                    <p>Seamlessly integrate DigiKash payment gateway with your WooCommerce store for secure, fast transactions.</p>
+                    <p>Seamlessly integrate EGatePay payment gateway with your WooCommerce store for secure, fast transactions.</p>
                 </div>
             </div>
             <div class="header-stats">
@@ -40,7 +40,7 @@
                             <h5 class="mb-0"><i class="fas fa-download me-2"></i>Quick Download</h5>
                         </div>
                         <div class="card-body">
-                            <p>Ready-to-use WooCommerce payment gateway plugin for DigiKash.</p>
+                            <p>Ready-to-use WooCommerce payment gateway plugin for EGatePay.</p>
                             <div class="download-info">
                                 <div class="info-item">
                                     <i class="fas fa-file-archive text-primary"></i>
@@ -70,7 +70,7 @@
                                 <li><i class="fas fa-check text-success"></i>WooCommerce 4.0+</li>
                                 <li><i class="fas fa-check text-success"></i>PHP 7.4+</li>
                                 <li><i class="fas fa-check text-success"></i>SSL Certificate</li>
-                                <li><i class="fas fa-check text-success"></i>DigiKash Merchant Account</li>
+                                <li><i class="fas fa-check text-success"></i>EGatePay Merchant Account</li>
                             </ul>
                             <div class="compatibility-badge">
                                 <i class="fas fa-shield-alt text-success me-1"></i>
@@ -123,7 +123,7 @@
         <div class="installation-section">
             <div class="section-header">
                 <h4><i class="fas fa-cogs text-primary me-2"></i>Installation Guide</h4>
-                <p>Follow these simple steps to get started with DigiKash WooCommerce integration</p>
+                <p>Follow these simple steps to get started with EGatePay WooCommerce integration</p>
             </div>
             
             <div class="installation-steps">
@@ -131,7 +131,7 @@
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h6>Download Plugin</h6>
-                        <p>Download the DigiKash WooCommerce plugin ZIP file from the <strong>Quick Download</strong> section above.</p>
+                        <p>Download the EGatePay WooCommerce plugin ZIP file from the <strong>Quick Download</strong> section above.</p>
                     </div>
                 </div>
 
@@ -147,7 +147,7 @@
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h6>Activate Plugin</h6>
-                        <p>After successful upload, click <strong>Activate Plugin</strong> to enable DigiKash payment gateway in your WooCommerce store.</p>
+                        <p>After successful upload, click <strong>Activate Plugin</strong> to enable EGatePay payment gateway in your WooCommerce store.</p>
                     </div>
                 </div>
 
@@ -155,7 +155,7 @@
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h6>Configure Settings</h6>
-                        <p>Navigate to <code>WooCommerce</code> → <code>Settings</code> → <code>Payments</code> → <code>DigiKash</code> and enter your API credentials.</p>
+                        <p>Navigate to <code>WooCommerce</code> → <code>Settings</code> → <code>Payments</code> → <code>EGatePay</code> and enter your API credentials.</p>
                     </div>
                 </div>
 
@@ -183,7 +183,7 @@
                     </div>
                     <div class="config-content">
                         <h6>API Credentials</h6>
-                        <p>Obtain your API Key and Secret from DigiKash merchant dashboard</p>
+                        <p>Obtain your API Key and Secret from EGatePay merchant dashboard</p>
                         <span class="config-badge">Required</span>
                     </div>
                 </div>

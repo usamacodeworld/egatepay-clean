@@ -1,6 +1,6 @@
 <section id="sandbox-guide" class="content-section">
     <h2>Sandbox Testing Guide</h2>
-    <p>Complete guide to testing DigiKash API integration in sandbox environment. Test all features safely without processing real money.</p>
+    <p>Complete guide to testing EGatePay API integration in sandbox environment. Test all features safely without processing real money.</p>
 
     <!-- Environment Overview -->
     <div class="alert alert-warning mb-4">
@@ -23,7 +23,7 @@
                 <div class="col-lg-6">
                     <h6 class="text-primary"><i class="fas fa-key me-2"></i>1. Get Sandbox Credentials</h6>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-arrow-right text-muted me-2"></i>Login to your DigiKash merchant dashboard</li>
+                        <li><i class="fas fa-arrow-right text-muted me-2"></i>Login to your EGatePay merchant dashboard</li>
                         <li><i class="fas fa-arrow-right text-muted me-2"></i>Navigate to <strong>API Configuration</strong></li>
                         <li><i class="fas fa-arrow-right text-muted me-2"></i>Switch to <span class="badge bg-warning">Sandbox Mode</span></li>
                         <li><i class="fas fa-arrow-right text-muted me-2"></i>Copy your <code>test_</code> prefixed credentials</li>
@@ -220,13 +220,13 @@
                 <div class="tab-pane fade show active" id="php-sandbox" role="tabpanel">
                     <div class="code-block">
                         <pre><code class="php">&lt;?php
-// DigiKash Sandbox Integration Example
-class DigiKashSandboxTester
+// EGatePay Sandbox Integration Example
+class EGatePaySandboxTester
 {
     private $apiKey = 'test_your_api_key_here';
     private $merchantKey = 'test_merchant_your_key_here';
     private $environment = 'sandbox';
-    private $baseUrl = 'https://digikash.coevs.com/api/v1';
+    private $baseUrl = 'https://e-gatepay.net/api/v1';
 
     public function testPaymentFlow()
     {
@@ -241,7 +241,7 @@ class DigiKashSandboxTester
             'success_redirect' => 'https://yoursite.com/success',
             'failure_url' => 'https://yoursite.com/failure',
             'cancel_redirect' => 'https://yoursite.com/cancel',
-            'ipn_url' => 'https://yoursite.com/webhook/digikash'
+            'ipn_url' => 'https://yoursite.com/webhook/egatepay'
         ];
 
         $response = $this->makeApiRequest('POST', '/initiate-payment', $paymentData);
@@ -289,7 +289,7 @@ class DigiKashSandboxTester
 }
 
 // Run sandbox tests
-$tester = new DigiKashSandboxTester();
+$tester = new EGatePaySandboxTester();
 $tester->testPaymentFlow();</code></pre>
                     </div>
                 </div>
@@ -297,13 +297,13 @@ $tester->testPaymentFlow();</code></pre>
                 <!-- JavaScript Example -->
                 <div class="tab-pane fade" id="js-sandbox" role="tabpanel">
                     <div class="code-block">
-                        <pre><code class="javascript">// DigiKash Sandbox Testing Suite
-class DigiKashSandboxTester {
+                        <pre><code class="javascript">// EGatePay Sandbox Testing Suite
+class EGatePaySandboxTester {
     constructor() {
         this.apiKey = 'test_your_api_key_here';
         this.merchantKey = 'test_merchant_your_key_here';
         this.environment = 'sandbox';
-        this.baseUrl = 'https://digikash.coevs.com/api/v1';
+        this.baseUrl = 'https://e-gatepay.net/api/v1';
     }
 
     async testPaymentFlow() {
@@ -319,7 +319,7 @@ class DigiKashSandboxTester {
                 success_redirect: 'https://yoursite.com/success',
                 failure_url: 'https://yoursite.com/failure',
                 cancel_redirect: 'https://yoursite.com/cancel',
-                ipn_url: 'https://yoursite.com/webhook/digikash'
+                ipn_url: 'https://yoursite.com/webhook/egatepay'
             };
 
             const response = await this.makeApiRequest('POST', '/initiate-payment', paymentData);
@@ -365,7 +365,7 @@ class DigiKashSandboxTester {
 }
 
 // Run sandbox tests
-const tester = new DigiKashSandboxTester();
+const tester = new EGatePaySandboxTester();
 tester.testPaymentFlow();</code></pre>
                     </div>
                 </div>
@@ -374,13 +374,13 @@ tester.testPaymentFlow();</code></pre>
                 <div class="tab-pane fade" id="curl-sandbox" role="tabpanel">
                     <div class="code-block">
                         <pre><code class="bash">#!/bin/bash
-# DigiKash Sandbox Testing Script
+# EGatePay Sandbox Testing Script
 
 # Configuration
 API_KEY="test_your_api_key_here"
 MERCHANT_KEY="test_merchant_your_key_here"
 ENVIRONMENT="sandbox"
-BASE_URL="https://digikash.coevs.com/api/v1"
+BASE_URL="https://e-gatepay.net/api/v1"
 
 # Test Payment Initiation
 echo "Testing Payment Initiation..."
@@ -400,7 +400,7 @@ curl -X POST "${BASE_URL}/initiate-payment" \
     "success_redirect": "https://yoursite.com/success",
     "failure_url": "https://yoursite.com/failure",
     "cancel_redirect": "https://yoursite.com/cancel",
-    "ipn_url": "https://yoursite.com/webhook/digikash"
+    "ipn_url": "https://yoursite.com/webhook/egatepay"
   }' | jq .
 
 # Test Payment Verification

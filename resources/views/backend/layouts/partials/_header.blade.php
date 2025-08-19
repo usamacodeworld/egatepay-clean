@@ -5,7 +5,7 @@
                 style="margin-inline-start: -14px;">
             <x-icon name="cil-menu" class="icon icon-lg"/>
         </button>
-        @include('backend.layouts.partials._search')
+        {{-- @include('backend.layouts.partials._search') --}}
         <ul class="header-nav ms-auto">
 
 {{--             Admin notifications dropdown--}}
@@ -13,14 +13,14 @@
                 @include('backend.layouts.partials._notifications', ['notifications' => auth()->user()->getRecentNotifications()])
             </li>
             
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link"
                    data-coreui-toggle="tooltip"
                    data-coreui-title="@lang('Control Panel')"
                    href="{{ route('admin.app.control-panel') }}">
                     <x-icon name="apps-1" class="icon icon-lg"/>
                 </a>
-            </li>
+            </li> --}}
             
             <li class="nav-item">
                 <a class="nav-link"
@@ -35,7 +35,7 @@
             <li class="nav-item py-1">
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </li>
-            <li class="nav-item dropdown">
+            {{-- <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
                         aria-expanded="false" data-coreui-toggle="dropdown">
                     <x-icon name="cil-language" class="icon icon-lg theme-icon-active"/>
@@ -51,7 +51,7 @@
                         </li>
                     @endforeach
                 </ul>
-            </li>
+            </li> --}}
             <li class="nav-item py-1">
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </li>

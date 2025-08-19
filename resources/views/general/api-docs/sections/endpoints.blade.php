@@ -151,12 +151,12 @@
         <!-- cURL Example -->
         <div class="tab-pane fade show active" id="curl-initiate" role="tabpanel">
             <div class="code-block">
-                <pre><code class="bash">curl -X POST "https://digikash.coevs.com/api/v1/initiate-payment" \
+                <pre><code class="bash">curl -X POST "https://e-gatepay.net/api/v1/initiate-payment" \
   -H "Content-Type: application/json" \
   -H "X-Environment: {environment}" \
   -H "X-Merchant-Key: {merchant_key}" \
   -H "X-API-Key: {api_key}" \
-  -d '{"payment_amount": 250.00, "currency_code": "USD", "ref_trx": "ORDER_12345", "description": "Premium Subscription", "success_redirect": "https://yoursite.com/payment/success", "failure_url": "https://yoursite.com/payment/failed", "cancel_redirect": "https://yoursite.com/payment/cancelled", "ipn_url": "https://yoursite.com/api/webhooks/digikash"}'</code></pre>
+  -d '{"payment_amount": 250.00, "currency_code": "USD", "ref_trx": "ORDER_12345", "description": "Premium Subscription", "success_redirect": "https://yoursite.com/payment/success", "failure_url": "https://yoursite.com/payment/failed", "cancel_redirect": "https://yoursite.com/payment/cancelled", "ipn_url": "https://yoursite.com/api/webhooks/egatepay"}'</code></pre>
             </div>
         </div>
 
@@ -168,12 +168,12 @@
 use App\Enums\EnvironmentMode;
 use Illuminate\Support\Facades\Http;
 
-class DigiKashPaymentInitiator
+class EGatePayPaymentInitiator
 {
     private $environment;
     private $merchantKey;
     private $apiKey;
-    private $baseUrl = 'https://digikash.coevs.com/api/v1';
+    private $baseUrl = 'https://e-gatepay.net/api/v1';
 
     public function __construct(EnvironmentMode $environment, $merchantKey, $apiKey)
     {
@@ -221,8 +221,8 @@ class DigiKashPaymentInitiator
 }
 
 // Usage: Choose appropriate factory method based on your environment
-$initiator = DigiKashPaymentInitiator::sandbox('test_merchant_key', 'test_api_key'); // For testing
-// $initiator = DigiKashPaymentInitiator::production('merchant_key', 'api_key'); // For production
+$initiator = EGatePayPaymentInitiator::sandbox('test_merchant_key', 'test_api_key'); // For testing
+// $initiator = EGatePayPaymentInitiator::production('merchant_key', 'api_key'); // For production
 
 $paymentData = [
     'payment_amount' => 250.00,
@@ -232,7 +232,7 @@ $paymentData = [
     'success_redirect' => 'https://yoursite.com/payment/success',
     'failure_url' => 'https://yoursite.com/payment/failed',
     'cancel_redirect' => 'https://yoursite.com/payment/cancelled',
-    'ipn_url' => 'https://yoursite.com/api/webhooks/digikash',
+    'ipn_url' => 'https://yoursite.com/api/webhooks/egatepay',
 ];
 
 $result = $initiator->initiatePayment($paymentData);</code></pre>
@@ -249,21 +249,21 @@ const EnvironmentMode = {
     PRODUCTION: 'production'
 };
 
-class DigiKashPaymentInitiator {
+class EGatePayPaymentInitiator {
     constructor(environment, merchantKey, apiKey) {
         this.environment = environment;
         this.merchantKey = merchantKey;
         this.apiKey = apiKey;
-        this.baseUrl = 'https://digikash.coevs.com/api/v1';
+        this.baseUrl = 'https://e-gatepay.net/api/v1';
     }
 
     // Factory methods
     static sandbox(testMerchantKey, testApiKey) {
-        return new DigiKashPaymentInitiator(EnvironmentMode.SANDBOX, testMerchantKey, testApiKey);
+        return new EGatePayPaymentInitiator(EnvironmentMode.SANDBOX, testMerchantKey, testApiKey);
     }
 
     static production(merchantKey, apiKey) {
-        return new DigiKashPaymentInitiator(EnvironmentMode.PRODUCTION, merchantKey, apiKey);
+        return new EGatePayPaymentInitiator(EnvironmentMode.PRODUCTION, merchantKey, apiKey);
     }
 
     async initiatePayment(paymentData) {
@@ -302,8 +302,8 @@ class DigiKashPaymentInitiator {
 }
 
 // Usage: Choose appropriate factory method based on your environment
-const initiator = DigiKashPaymentInitiator.sandbox('test_merchant_key', 'test_api_key'); // For testing
-// const initiator = DigiKashPaymentInitiator.production('merchant_key', 'api_key'); // For production
+const initiator = EGatePayPaymentInitiator.sandbox('test_merchant_key', 'test_api_key'); // For testing
+// const initiator = EGatePayPaymentInitiator.production('merchant_key', 'api_key'); // For production
 
 const paymentData = {
     payment_amount: 250.00,
@@ -313,7 +313,7 @@ const paymentData = {
     success_redirect: 'https://yoursite.com/payment/success',
     failure_url: 'https://yoursite.com/payment/failed',
     cancel_redirect: 'https://yoursite.com/payment/cancelled',
-    ipn_url: 'https://yoursite.com/api/webhooks/digikash',
+    ipn_url: 'https://yoursite.com/api/webhooks/egatepay',
 };
 
 initiator.initiatePayment(paymentData)
@@ -333,12 +333,12 @@ class EnvironmentMode(Enum):
     SANDBOX = 'sandbox'
     PRODUCTION = 'production'
 
-class DigiKashPaymentInitiator:
+class EGatePayPaymentInitiator:
     def __init__(self, environment, merchant_key, api_key):
         self.environment = environment
         self.merchant_key = merchant_key
         self.api_key = api_key
-        self.base_url = 'https://digikash.coevs.com/api/v1'
+        self.base_url = 'https://e-gatepay.net/api/v1'
 
     @classmethod
     def sandbox(cls, test_merchant_key, test_api_key):
@@ -382,8 +382,8 @@ class DigiKashPaymentInitiator:
             return {'success': False, 'error': str(e)}
 
 # Usage: Choose appropriate factory method based on your environment
-initiator = DigiKashPaymentInitiator.sandbox('test_merchant_key', 'test_api_key')  # For testing
-# initiator = DigiKashPaymentInitiator.production('merchant_key', 'api_key')  # For production
+initiator = EGatePayPaymentInitiator.sandbox('test_merchant_key', 'test_api_key')  # For testing
+# initiator = EGatePayPaymentInitiator.production('merchant_key', 'api_key')  # For production
 
 payment_data = {
     'payment_amount': 250.00,
@@ -393,7 +393,7 @@ payment_data = {
     'success_redirect': 'https://yoursite.com/payment/success',
     'failure_url': 'https://yoursite.com/payment/failed',
     'cancel_redirect': 'https://yoursite.com/payment/cancelled',
-    'ipn_url': 'https://yoursite.com/api/webhooks/digikash',
+    'ipn_url': 'https://yoursite.com/api/webhooks/egatepay',
 }
 
 result = initiator.initiate_payment(payment_data)
@@ -412,7 +412,7 @@ print(result)</code></pre>
         <div class="response-body">
             <div class="code-block">
                 <pre><code class="json">{
-    "payment_url": "https://digikash.test/payment/checkout?expires=1753724376&token=AmQvJdGIdGUVJUUMayJZZreBv2UcTyIHclk9Ps1s1pZhLpVlIqIBVPqGTRKQ3NUSehyM3qRUIf69IhLbNfJ1JqiMxlxNrnn22lNz1N01hZQn65r5VZnvhWmQPxQO8UX6rE4yfRUvT6bHdqLj7UDJhRPYRFSgCsG1b86sxSdKTZNOVJdWV5z8L6a5pNMZ2KlpG5e7bYa&signature=e9q7ea91456dcc167e7d498ea486f923570821957be8881566186655950f364",
+    "payment_url": "https://e-gatepay.net/payment/checkout?expires=1753724376&token=AmQvJdGIdGUVJUUMayJZZreBv2UcTyIHclk9Ps1s1pZhLpVlIqIBVPqGTRKQ3NUSehyM3qRUIf69IhLbNfJ1JqiMxlxNrnn22lNz1N01hZQn65r5VZnvhWmQPxQO8UX6rE4yfRUvT6bHdqLj7UDJhRPYRFSgCsG1b86sxSdKTZNOVJdWV5z8L6a5pNMZ2KlpG5e7bYa&signature=e9q7ea91456dcc167e7d498ea486f923570821957be8881566186655950f364",
     "info": {
         "ref_trx": "TXNT4AQFESTAG4F",
         "description": "Order #1234",
@@ -461,7 +461,7 @@ print(result)</code></pre>
 <!-- Verify Payment Section -->
 <section id="verify-payment" class="content-section">
     <h2>{{ __('Verify Payment') }}</h2>
-    <p>{{ __('Verify the status of a payment using the DigiKash transaction ID returned from the payment initiation.') }}</p>
+    <p>{{ __('Verify the status of a payment using the EGatePay transaction ID returned from the payment initiation.') }}</p>
 
     <div class="response-example">
         <div class="response-header">
@@ -525,7 +525,7 @@ print(result)</code></pre>
                 <td><code>trxId</code></td>
                 <td>string</td>
                 <td>✅</td>
-                <td>{{ __('DigiKash transaction ID (e.g., TXNQ5V8K2L9N3XM1)') }}</td>
+                <td>{{ __('EGatePay transaction ID (e.g., TXNQ5V8K2L9N3XM1)') }}</td>
             </tr>
         </tbody>
     </table>
@@ -568,7 +568,7 @@ print(result)</code></pre>
         <!-- cURL Example -->
         <div class="tab-pane fade show active" id="curl-verify" role="tabpanel">
             <div class="code-block">
-                <pre><code class="bash">curl -X GET "https://digikash.coevs.com/api/v1/verify-payment/TXNQ5V8K2L9N3XM1" \
+                <pre><code class="bash">curl -X GET "https://e-gatepay.net/api/v1/verify-payment/TXNQ5V8K2L9N3XM1" \
   -H "Accept: application/json" \
   -H "X-Environment: {environment}" \
   -H "X-Merchant-Key: {merchant_key}" \
@@ -584,12 +584,12 @@ print(result)</code></pre>
 use App\Enums\EnvironmentMode;
 use Illuminate\Support\Facades\Http;
 
-class DigiKashPaymentVerifier
+class EGatePayPaymentVerifier
 {
     private $environment;
     private $merchantKey;
     private $apiKey;
-    private $baseUrl = 'https://digikash.coevs.com/api/v1';
+    private $baseUrl = 'https://e-gatepay.net/api/v1';
 
     public function __construct(EnvironmentMode $environment, $merchantKey, $apiKey)
     {
@@ -645,8 +645,8 @@ class DigiKashPaymentVerifier
 }
 
 // Usage: Choose appropriate factory method based on your environment
-$verifier = DigiKashPaymentVerifier::sandbox('test_merchant_key', 'test_api_key'); // For testing
-// $verifier = DigiKashPaymentVerifier::production('merchant_key', 'api_key'); // For production
+$verifier = EGatePayPaymentVerifier::sandbox('test_merchant_key', 'test_api_key'); // For testing
+// $verifier = EGatePayPaymentVerifier::production('merchant_key', 'api_key'); // For production
 
 $result = $verifier->verifyPayment('TXNQ5V8K2L9N3XM1');</code></pre>
             </div>
@@ -662,21 +662,21 @@ const EnvironmentMode = {
     PRODUCTION: 'production'
 };
 
-class DigiKashPaymentVerifier {
+class EGatePayPaymentVerifier {
     constructor(environment, merchantKey, apiKey) {
         this.environment = environment;
         this.merchantKey = merchantKey;
         this.apiKey = apiKey;
-        this.baseUrl = 'https://digikash.coevs.com/api/v1';
+        this.baseUrl = 'https://e-gatepay.net/api/v1';
     }
 
     // Factory methods
     static sandbox(testMerchantKey, testApiKey) {
-        return new DigiKashPaymentVerifier(EnvironmentMode.SANDBOX, testMerchantKey, testApiKey);
+        return new EGatePayPaymentVerifier(EnvironmentMode.SANDBOX, testMerchantKey, testApiKey);
     }
 
     static production(merchantKey, apiKey) {
-        return new DigiKashPaymentVerifier(EnvironmentMode.PRODUCTION, merchantKey, apiKey);
+        return new EGatePayPaymentVerifier(EnvironmentMode.PRODUCTION, merchantKey, apiKey);
     }
 
     async verifyPayment(trxId) {
@@ -722,8 +722,8 @@ class DigiKashPaymentVerifier {
 }
 
 // Usage: Choose appropriate factory method based on your environment
-const verifier = DigiKashPaymentVerifier.sandbox('test_merchant_key', 'test_api_key'); // For testing
-// const verifier = DigiKashPaymentVerifier.production('merchant_key', 'api_key'); // For production
+const verifier = EGatePayPaymentVerifier.sandbox('test_merchant_key', 'test_api_key'); // For testing
+// const verifier = EGatePayPaymentVerifier.production('merchant_key', 'api_key'); // For production
 
 verifier.verifyPayment('TXNQ5V8K2L9N3XM1')
     .then(result => console.log(result))
@@ -742,12 +742,12 @@ class EnvironmentMode(Enum):
     SANDBOX = 'sandbox'
     PRODUCTION = 'production'
 
-class DigiKashPaymentVerifier:
+class EGatePayPaymentVerifier:
     def __init__(self, environment, merchant_key, api_key):
         self.environment = environment
         self.merchant_key = merchant_key
         self.api_key = api_key
-        self.base_url = 'https://digikash.coevs.com/api/v1'
+        self.base_url = 'https://e-gatepay.net/api/v1'
 
     @classmethod
     def sandbox(cls, test_merchant_key, test_api_key):
@@ -796,8 +796,8 @@ class DigiKashPaymentVerifier:
         logging.info(f"Payment verified successfully: {payment_data}")
 
 # Usage: Choose appropriate factory method based on your environment
-verifier = DigiKashPaymentVerifier.sandbox('test_merchant_key', 'test_api_key')  # For testing
-# verifier = DigiKashPaymentVerifier.production('merchant_key', 'api_key')  # For production
+verifier = EGatePayPaymentVerifier.sandbox('test_merchant_key', 'test_api_key')  # For testing
+# verifier = EGatePayPaymentVerifier.production('merchant_key', 'api_key')  # For production
 
 result = verifier.verify_payment('TXNQ5V8K2L9N3XM1')
 print(result)</code></pre>

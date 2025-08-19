@@ -163,85 +163,40 @@ return [
                 'route'      => 'admin.payment.gateway.index',
                 'permission' => 'payment-gateway-list',
             ],
-            [
-                'label'      => 'Virtual Cards',
-                'code'       => 'virtual-card-management',
-                'icon'       => 'virtual-card',
-                'type'       => 'groups',
-                'permission' => 'virtual-card-list',
-                'sub_menus'  => [
-                    [
-                        'label'      => 'Awaiting Requests',
-                        'icon'       => 'request-1',
-                        'route'      => 'admin.virtual-card.requests.awaiting',
-                        'permission' => 'virtual-card-action',
-                    ],
-                    [
-                        'label'      => 'CardHolders',
-                        'icon'       => 'cardHolder',
-                        'route'      => 'admin.virtual-card.cardholders.index',
-                        'permission' => 'virtual-card-action',
-                    ],
-                    [
-                        'label'      => 'All Requests',
-                        'icon'       => 'request-list',
-                        'route'      => 'admin.virtual-card.requests.all',
-                        'permission' => 'virtual-card-list',
-                    ],
-                    [
-                        'label'      => 'Virtual Card List',
-                        'icon'       => 'card',
-                        'route'      => 'admin.virtual-card.list',
-                        'permission' => 'virtual-card-list',
-                    ],
-                    [
-                        'label'      => 'Fee Settings',
-                        'icon'       => 'fee',
-                        'route'      => 'admin.virtual-card.fee-settings.index',
-                        'permission' => 'virtual-card-action',
-                    ],
-                    [
-                        'label'      => 'Provider Configuration',
-                        'icon'       => 'provider',
-                        'route'      => 'admin.virtual-card.provider.index',
-                        'permission' => 'virtual-card-provider-manage',
-                    ],
-                ],
-            ],
-            [
-                'label'     => 'Deposit',
-                'code'      => 'deposit-management',
-                'icon'      => 'wallet-plus',
-                'type'      => 'groups',
-                'sub_menus' => [
-                    [
-                        'label'      => 'Manual Requests',
-                        'icon'       => 'deposit',
-                        'route'      => 'admin.deposit.manual-request',
-                        'permission' => 'deposit-list',
-                    ],
-                    [
-                        'label'      => 'Automatic Methods',
-                        'icon'       => 'auto-payment',
-                        'route'      => 'admin.deposit.method.index',
-                        'params'     => ['type' => 'auto'],
-                        'permission' => 'deposit-method-list',
-                    ],
-                    [
-                        'label'      => 'Manual Methods',
-                        'icon'       => 'manual-payment',
-                        'route'      => 'admin.deposit.method.index',
-                        'params'     => ['type' => 'manual'],
-                        'permission' => 'deposit-method-list',
-                    ],
-                    [
-                        'label'      => 'Deposit History',
-                        'icon'       => 'deposit-1',
-                        'route'      => 'admin.deposit.history',
-                        'permission' => 'deposit-list',
-                    ],
-                ],
-            ],
+            // [
+            //     'label'     => 'Deposit',
+            //     'code'      => 'deposit-management',
+            //     'icon'      => 'wallet-plus',
+            //     'type'      => 'groups',
+            //     'sub_menus' => [
+            //         [
+            //             'label'      => 'Manual Requests',
+            //             'icon'       => 'deposit',
+            //             'route'      => 'admin.deposit.manual-request',
+            //             'permission' => 'deposit-list',
+            //         ],
+            //         [
+            //             'label'      => 'Automatic Methods',
+            //             'icon'       => 'auto-payment',
+            //             'route'      => 'admin.deposit.method.index',
+            //             'params'     => ['type' => 'auto'],
+            //             'permission' => 'deposit-method-list',
+            //         ],
+            //         [
+            //             'label'      => 'Manual Methods',
+            //             'icon'       => 'manual-payment',
+            //             'route'      => 'admin.deposit.method.index',
+            //             'params'     => ['type' => 'manual'],
+            //             'permission' => 'deposit-method-list',
+            //         ],
+            //         [
+            //             'label'      => 'Deposit History',
+            //             'icon'       => 'deposit-1',
+            //             'route'      => 'admin.deposit.history',
+            //             'permission' => 'deposit-list',
+            //         ],
+            //     ],
+            // ],
             [
                 'label'     => 'Withdraw',
                 'code'      => 'withdraw-management',
@@ -282,20 +237,6 @@ return [
                         'permission' => 'withdraw-list',
                     ],
                 ],
-            ],
-            [
-                'label'      => 'Referrals',
-                'icon'       => 'referral',
-                'type'       => 'single',
-                'route'      => 'admin.referral.index',
-                'permission' => 'referral-manage',
-            ],
-            [
-                'label'      => 'User Ranking',
-                'icon'       => 'ranking',
-                'type'       => 'single',
-                'route'      => 'admin.ranking.index',
-                'permission' => 'ranking-manage',
             ],
             [
                 'label'      => 'Transactions',
@@ -387,13 +328,13 @@ return [
                     ],
                 ],
             ],
-            [
-                'label'      => 'Language',
-                'icon'       => 'translate',
-                'type'       => 'single',
-                'route'      => 'admin.language.index',
-                'permission' => 'language-list',
-            ],
+            // [
+            //     'label'      => 'Language',
+            //     'icon'       => 'translate',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.language.index',
+            //     'permission' => 'language-list',
+            // ],
         ],
     ],
     [
@@ -418,44 +359,44 @@ return [
     [
         'label' => 'CMS Essentials',
         'menus' => [
-            [
-                'label'      => 'Custom Landing Page',
-                'icon'       => 'custom-landing',
-                'type'       => 'single',
-                'route'      => 'admin.custom-landing.index',
-                'permission' => 'page-list',
-            ],
-            [
-                'label'      => 'Navigation Manage',
-                'icon'       => 'list-2',
-                'type'       => 'single',
-                'route'      => 'admin.navigation.site.index',
-                'permission' => 'navigation-manage',
-            ],
-            [
-                'label'     => 'Pages',
-                'icon'      => 'page',
-                'type'      => 'groups',
-                'sub_menus' => [
-                    [
-                        'label'      => 'Page Manage',
-                        'route'      => 'admin.page.site.index',
-                        'permission' => 'page-list',
-                    ],
-                    [
-                        'label'      => 'Component Manage',
-                        'route'      => 'admin.page.component.index',
-                        'permission' => 'component-list',
-                    ],
-                ],
-            ],
-            [
-                'label'      => 'Footer Manage',
-                'icon'       => 'footer',
-                'type'       => 'single',
-                'route'      => 'admin.page.footer.section.index',
-                'permission' => 'page-footer-manage',
-            ],
+            // [
+            //     'label'      => 'Custom Landing Page',
+            //     'icon'       => 'custom-landing',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.custom-landing.index',
+            //     'permission' => 'page-list',
+            // ],
+            // [
+            //     'label'      => 'Navigation Manage',
+            //     'icon'       => 'list-2',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.navigation.site.index',
+            //     'permission' => 'navigation-manage',
+            // ],
+            // [
+            //     'label'     => 'Pages',
+            //     'icon'      => 'page',
+            //     'type'      => 'groups',
+            //     'sub_menus' => [
+            //         [
+            //             'label'      => 'Page Manage',
+            //             'route'      => 'admin.page.site.index',
+            //             'permission' => 'page-list',
+            //         ],
+            //         [
+            //             'label'      => 'Component Manage',
+            //             'route'      => 'admin.page.component.index',
+            //             'permission' => 'component-list',
+            //         ],
+            //     ],
+            // ],
+            // [
+            //     'label'      => 'Footer Manage',
+            //     'icon'       => 'footer',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.page.footer.section.index',
+            //     'permission' => 'page-footer-manage',
+            // ],
             [
                 'label'     => 'Blog',
                 'icon'      => 'blog',
@@ -481,13 +422,13 @@ return [
                 'permission' => 'subscriber-list',
             ],
 
-            [
-                'label'      => 'Social Links',
-                'icon'       => 'social-link',
-                'type'       => 'single',
-                'route'      => 'admin.social.index',
-                'permission' => 'social-list',
-            ],
+            // [
+            //     'label'      => 'Social Links',
+            //     'icon'       => 'social-link',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.social.index',
+            //     'permission' => 'social-list',
+            // ],
             [
                 'label'      => 'SEO Manage',
                 'icon'       => 'seo',
@@ -512,13 +453,13 @@ return [
     [
         'label' => 'Application',
         'menus' => [
-            [
-                'label'      => 'Style Manager',
-                'icon'       => 'app-style-code',
-                'type'       => 'single',
-                'route'      => 'admin.app.style-manager',
-                'permission' => 'style-manager',
-            ],
+            // [
+            //     'label'      => 'Style Manager',
+            //     'icon'       => 'app-style-code',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.app.style-manager',
+            //     'permission' => 'style-manager',
+            // ],
             [
                 'label'     => 'Optimize App',
                 'icon'      => 'optimize',
@@ -536,13 +477,13 @@ return [
                     ],
                 ],
             ],
-            [
-                'label'      => 'App Info',
-                'icon'       => 'app',
-                'type'       => 'single',
-                'route'      => 'admin.app.info',
-                'permission' => 'app-info',
-            ],
+            // [
+            //     'label'      => 'App Info',
+            //     'icon'       => 'app',
+            //     'type'       => 'single',
+            //     'route'      => 'admin.app.info',
+            //     'permission' => 'app-info',
+            // ],
         ],
     ],
 

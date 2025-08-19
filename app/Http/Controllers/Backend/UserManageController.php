@@ -66,6 +66,7 @@ class UserManageController extends BaseController
             'info'         => view('backend.user.manage.info', compact('user')),
             'merchants'    => $user->isMerchant() ? view('backend.user.manage.merchant', compact('user')) : abort(404),
             'statistics'   => $this->handleDashboard($request, $user),
+            'settlements'  => $this->handleSettlements($request, $user),
         };
     }
 
@@ -266,7 +267,7 @@ class UserManageController extends BaseController
                 if (! $merchant) {
                     $validated = [
                         'business_name'        => $user->first_name . ' ' . $user->last_name,
-                        'site_url'             => 'https://e-gatepay.net/'. $user->username,
+                        'site_url'             => 'https://e-gatepay.net/' . $user->username,
                         'currency_id'          => '1',
                         'business_logo'        => null,
                         'business_email'       => $user->email,
@@ -423,5 +424,12 @@ class UserManageController extends BaseController
         $stats = array_merge($stats->toArray(), $othersStats);
 
         return view('backend.user.manage.statistics', compact('stats', 'user'));
+    }
+
+    protected function handleSettlements(Request $request, User $user)
+    {
+        return '1';
+
+        return view('backend.user.manage.settlements', compact('user', 'settlements'));
     }
 }

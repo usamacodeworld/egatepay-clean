@@ -1,7 +1,7 @@
 <!-- Error Codes Section -->
 <section id="error-codes" class="content-section">
     <h2>@lang('Error Codes')</h2>
-    <p>@lang('DigiKash API uses conventional HTTP response codes to indicate the success or failure of API requests.')</p>
+    <p>@lang('EGatePay API uses conventional HTTP response codes to indicate the success or failure of API requests.')</p>
 
     <!-- HTTP Status Codes -->
     <h3>@lang('HTTP Status Codes')</h3>
@@ -101,7 +101,7 @@
             <tr>
                 <td><code>MERCHANT_SUSPENDED</code></td>
                 <td>@lang('Merchant account is suspended')</td>
-                <td>@lang('Contact DigiKash support')</td>
+                <td>@lang('Contact EGatePay support')</td>
             </tr>
         </tbody>
     </table>
@@ -131,7 +131,7 @@
 <!-- Support Section -->
 <section id="support" class="content-section">
     <h2 class="mb-4">@lang('Support')</h2>
-    <p>@lang('Get help with your DigiKash integration from our support team and developer resources.')</p>
+    <p>@lang('Get help with your EGatePay integration from our support team and developer resources.')</p>
     
     <article class="card border-0 shadow-sm rounded-3">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -146,7 +146,7 @@
             <ul class="list-unstyled mb-4">
                 <li>
                     <span class="fw-semibold">@lang('Email:')</span>
-                    <a href="mailto:api-support@digikash.com" class="link-primary">contact.coevs@gmail.com</a>
+                    <a href="mailto:api-support@e-gatepay.com" class="link-primary">api-support@e-gatepay.com</a>
                 </li>
                 <li>
                     <span class="fw-semibold">@lang('Response Time:')</span>
@@ -162,7 +162,7 @@
                 @lang('Include your Merchant ID and detailed error descriptions for faster resolution.')
             </p>
             
-            <a href="mailto:contact.coevs@gmail.com" class="btn btn-primary">
+            <a href="mailto:contact.e-gatepay@gmail.com" class="btn btn-primary" style="border-color: #e2402c !important">
                 @lang('Contact Support')
             </a>
         </div>
