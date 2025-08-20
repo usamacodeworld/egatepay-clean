@@ -70,29 +70,10 @@ class DashboardController extends Controller
                 'link'        => route('admin.user.active'),
             ],
             [
-                'title'       => __('All Verified Users'),
-                'value'       => User::where('email_verified_at', '!=', null)->count(),
-                'icon'        => 'user-6',
-                'color_class' => 'success-svg',
-            ],
-            [
-                'title'       => __('All Unverified Users'),
-                'value'       => User::where('email_verified_at', null)->count(),
-                'icon'        => 'user-7',
-                'color_class' => 'danger-svg',
-                'link'        => route('admin.user.unverified'),
-            ],
-            [
                 'title'       => __('Merchant Users'),
                 'value'       => User::where('role', UserRole::MERCHANT)->count(),
                 'icon'        => 'users-3',
                 'color_class' => 'info-svg',
-            ],
-            [
-                'title'       => __('Verified Merchant Users'),
-                'value'       => User::where('email_verified_at', '!=', null)->where('role', UserRole::MERCHANT)->count(),
-                'icon'        => 'user-8',
-                'color_class' => 'success-svg',
             ],
             [
                 'title'       => __('Merchant Shops'),

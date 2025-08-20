@@ -31,7 +31,7 @@
                     <!-- Filter Section -->
                     <div class="collapse d-md-block" id="filterSection">
                         <div class="single-form-card card card-body">
-                            <form action="{{ route('user.transaction.index') }}" method="GET"
+                            <form action="{{ route('user.settlements.dispursal') }}" method="GET"
                                 class="row gy-3 align-items-end">
                                 <!-- Date Range -->
                                 <div class="col-md-auto">
@@ -51,6 +51,12 @@
                                 <div class="col-md-auto">
                                     <x-form.select name="currency" label="{{ __('Currency') }}" :options="CurrencyEnum::options()"
                                         :selected="request('currency')" />
+                                </div>
+
+                                <div class="col-md-auto">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
                                 </div>
                             </form>
                         </div>

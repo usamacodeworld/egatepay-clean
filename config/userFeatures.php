@@ -15,7 +15,7 @@ return [
         [
             'feature'     => 'kyc_verification',
             'description' => 'Requires KYC verification before transactions.',
-            'status'      => false,
+            'status'      => true,
         ],
         [
             'feature'     => 'deposit',

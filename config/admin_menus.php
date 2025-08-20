@@ -34,26 +34,26 @@ return [
                         'route'      => 'admin.user.index',
                         'permission' => 'user-list',
                     ],
-                    [
-                        'label'      => 'Active Users',
-                        'route'      => 'admin.user.active',
-                        'permission' => 'user-list',
-                    ],
-                    [
-                        'label'      => 'Suspended Users',
-                        'route'      => 'admin.user.suspended',
-                        'permission' => 'user-list',
-                    ],
-                    [
-                        'label'      => 'Unverified  Users',
-                        'route'      => 'admin.user.unverified',
-                        'permission' => 'user-list',
-                    ],
-                    [
-                        'label'      => 'KYC Unverified',
-                        'route'      => 'admin.user.kyc-unverified',
-                        'permission' => 'user-list',
-                    ],
+                    // [
+                    //     'label'      => 'Active Users',
+                    //     'route'      => 'admin.user.active',
+                    //     'permission' => 'user-list',
+                    // ],
+                    // [
+                    //     'label'      => 'Suspended Users',
+                    //     'route'      => 'admin.user.suspended',
+                    //     'permission' => 'user-list',
+                    // ],
+                    // [
+                    //     'label'      => 'Unverified  Users',
+                    //     'route'      => 'admin.user.unverified',
+                    //     'permission' => 'user-list',
+                    // ],
+                    // [
+                    //     'label'      => 'KYC Unverified',
+                    //     'route'      => 'admin.user.kyc-unverified',
+                    //     'permission' => 'user-list',
+                    // ],
 
                 ],
             ],
@@ -64,54 +64,54 @@ return [
                 'icon'      => 'merchant',
                 'type'      => 'groups',
                 'sub_menus' => [
-                    [
-                        'label'      => 'Pending Merchants',
-                        'route'      => 'admin.merchant.pending',
-                        'permission' => 'merchant-list',
-                        'icon'       => 'shop',
-                    ],
+                    // [
+                    //     'label'      => 'Pending Merchants',
+                    //     'route'      => 'admin.merchant.pending',
+                    //     'permission' => 'merchant-list',
+                    //     'icon'       => 'shop',
+                    // ],
                     [
                         'label'      => 'All Merchants',
                         'route'      => 'admin.merchant.index',
                         'permission' => 'merchant-list',
                         'icon'       => 'shop-1',
                     ],
-                    [
-                        'label'      => 'Approved Merchants',
-                        'route'      => 'admin.merchant.approved',
-                        'permission' => 'merchant-list',
-                        'icon'       => 'shop',
-                    ],
-                    [
-                        'label'      => 'Rejected Merchants',
-                        'route'      => 'admin.merchant.rejected',
-                        'permission' => 'merchant-list',
-                        'icon'       => 'shop',
-                    ],
+                    // [
+                    //     'label'      => 'Approved Merchants',
+                    //     'route'      => 'admin.merchant.approved',
+                    //     'permission' => 'merchant-list',
+                    //     'icon'       => 'shop',
+                    // ],
+                    // [
+                    //     'label'      => 'Rejected Merchants',
+                    //     'route'      => 'admin.merchant.rejected',
+                    //     'permission' => 'merchant-list',
+                    //     'icon'       => 'shop',
+                    // ],
                 ],
             ],
-            [
-                'label'     => 'KYC Management',
-                'icon'      => 'kyc',
-                'type'      => 'groups',
-                'sub_menus' => [
-                    [
-                        'label'      => 'Awaiting KYC',
-                        'route'      => 'admin.kyc.pending',
-                        'permission' => 'kyc-list',
-                    ],
-                    [
-                        'label'      => 'KYC List',
-                        'route'      => 'admin.kyc.index',
-                        'permission' => 'kyc-list',
-                    ],
-                    [
-                        'label'      => 'KYC Templates',
-                        'route'      => 'admin.kyc.template.index',
-                        'permission' => 'kyc-template-list',
-                    ],
-                ],
-            ],
+            // [
+            //     'label'     => 'KYC Management',
+            //     'icon'      => 'kyc',
+            //     'type'      => 'groups',
+            //     'sub_menus' => [
+            //         [
+            //             'label'      => 'Awaiting KYC',
+            //             'route'      => 'admin.kyc.pending',
+            //             'permission' => 'kyc-list',
+            //         ],
+            //         [
+            //             'label'      => 'KYC List',
+            //             'route'      => 'admin.kyc.index',
+            //             'permission' => 'kyc-list',
+            //         ],
+            //         [
+            //             'label'      => 'KYC Templates',
+            //             'route'      => 'admin.kyc.template.index',
+            //             'permission' => 'kyc-template-list',
+            //         ],
+            //     ],
+            // ],
         ],
     ],
     [
@@ -197,47 +197,47 @@ return [
             //         ],
             //     ],
             // ],
-            [
-                'label'     => 'Withdraw',
-                'code'      => 'withdraw-management',
-                'icon'      => 'withdraw-1',
-                'type'      => 'groups',
-                'sub_menus' => [
-                    [
-                        'label'      => 'Manual Requests',
-                        'icon'       => 'withdraw-1',
-                        'route'      => 'admin.withdraw.manual-request',
-                        'permission' => 'withdraw-list',
-                    ],
-                    [
-                        'label'      => 'Automatic Methods',
-                        'icon'       => 'auto-payment',
-                        'route'      => 'admin.withdraw.method.index',
-                        'params'     => ['type' => 'auto'],
-                        'permission' => 'withdraw-method-list',
-                    ],
+            // [
+            //     'label'     => 'Withdraw',
+            //     'code'      => 'withdraw-management',
+            //     'icon'      => 'withdraw-1',
+            //     'type'      => 'groups',
+            //     'sub_menus' => [
+            //         [
+            //             'label'      => 'Manual Requests',
+            //             'icon'       => 'withdraw-1',
+            //             'route'      => 'admin.withdraw.manual-request',
+            //             'permission' => 'withdraw-list',
+            //         ],
+            //         [
+            //             'label'      => 'Automatic Methods',
+            //             'icon'       => 'auto-payment',
+            //             'route'      => 'admin.withdraw.method.index',
+            //             'params'     => ['type' => 'auto'],
+            //             'permission' => 'withdraw-method-list',
+            //         ],
 
-                    [
-                        'label'      => 'Manual Methods',
-                        'icon'       => 'manual-payment',
-                        'route'      => 'admin.withdraw.method.index',
-                        'params'     => ['type' => 'manual'],
-                        'permission' => 'withdraw-method-list',
-                    ],
-                    [
-                        'label'      => 'Scheduled Withdraws',
-                        'icon'       => 'schedule',
-                        'route'      => 'admin.withdraw.schedule',
-                        'permission' => 'withdraw-schedule',
-                    ],
-                    [
-                        'label'      => 'Withdraws History',
-                        'icon'       => 'withdraw-2',
-                        'route'      => 'admin.withdraw.history',
-                        'permission' => 'withdraw-list',
-                    ],
-                ],
-            ],
+            //         [
+            //             'label'      => 'Manual Methods',
+            //             'icon'       => 'manual-payment',
+            //             'route'      => 'admin.withdraw.method.index',
+            //             'params'     => ['type' => 'manual'],
+            //             'permission' => 'withdraw-method-list',
+            //         ],
+            //         [
+            //             'label'      => 'Scheduled Withdraws',
+            //             'icon'       => 'schedule',
+            //             'route'      => 'admin.withdraw.schedule',
+            //             'permission' => 'withdraw-schedule',
+            //         ],
+            //         [
+            //             'label'      => 'Withdraws History',
+            //             'icon'       => 'withdraw-2',
+            //             'route'      => 'admin.withdraw.history',
+            //             'permission' => 'withdraw-list',
+            //         ],
+            //     ],
+            // ],
             [
                 'label'      => 'Transactions',
                 'icon'       => 'transaction-2',
@@ -291,52 +291,52 @@ return [
             ],
         ],
     ],
-    [
-        'label' => 'System Config',
-        'menus' => [
-            [
-                'label'     => 'Settings',
-                'code'      => 'settings-management',
-                'icon'      => 'cil-settings',
-                'type'      => 'groups',
-                'sub_menus' => [
-                    [
-                        'label'      => 'Site Settings',
-                        'icon'       => 'site-setting',
-                        'route'      => 'admin.settings.site.index',
-                        'permission' => 'site-setting-view',
-                    ],
-                    [
-                        'label'      => 'Plugins Manage',
-                        'icon'       => 'cil-fork',
-                        'route'      => 'admin.settings.plugin.index',
-                        'permission' => 'plugins-manage',
-                    ],
-                    [
-                        'label'      => 'Notifications',
-                        'icon'       => 'notification',
-                        'route'      => 'admin.settings.plugin_type',
-                        'permission' => 'plugins-manage',
-                        'params'     => ['plugin_type' => 'notification'],
-                    ],
-                    [
-                        'label'      => 'Exchange Rates',
-                        'icon'       => 'currency-exchange',
-                        'route'      => 'admin.settings.plugin_type',
-                        'permission' => 'plugins-manage',
-                        'params'     => ['plugin_type' => 'exchange_rate'],
-                    ],
-                ],
-            ],
-            // [
-            //     'label'      => 'Language',
-            //     'icon'       => 'translate',
-            //     'type'       => 'single',
-            //     'route'      => 'admin.language.index',
-            //     'permission' => 'language-list',
-            // ],
-        ],
-    ],
+    // [
+    //     'label' => 'System Config',
+    //     'menus' => [
+    //         [
+    //             'label'     => 'Settings',
+    //             'code'      => 'settings-management',
+    //             'icon'      => 'cil-settings',
+    //             'type'      => 'groups',
+    //             'sub_menus' => [
+    //                 [
+    //                     'label'      => 'Site Settings',
+    //                     'icon'       => 'site-setting',
+    //                     'route'      => 'admin.settings.site.index',
+    //                     'permission' => 'site-setting-view',
+    //                 ],
+    //                 [
+    //                     'label'      => 'Plugins Manage',
+    //                     'icon'       => 'cil-fork',
+    //                     'route'      => 'admin.settings.plugin.index',
+    //                     'permission' => 'plugins-manage',
+    //                 ],
+    //                 [
+    //                     'label'      => 'Notifications',
+    //                     'icon'       => 'notification',
+    //                     'route'      => 'admin.settings.plugin_type',
+    //                     'permission' => 'plugins-manage',
+    //                     'params'     => ['plugin_type' => 'notification'],
+    //                 ],
+    //                 [
+    //                     'label'      => 'Exchange Rates',
+    //                     'icon'       => 'currency-exchange',
+    //                     'route'      => 'admin.settings.plugin_type',
+    //                     'permission' => 'plugins-manage',
+    //                     'params'     => ['plugin_type' => 'exchange_rate'],
+    //                 ],
+    //             ],
+    //         ],
+    //         // [
+    //         //     'label'      => 'Language',
+    //         //     'icon'       => 'translate',
+    //         //     'type'       => 'single',
+    //         //     'route'      => 'admin.language.index',
+    //         //     'permission' => 'language-list',
+    //         // ],
+    //     ],
+    // ],
     [
         'label' => 'Staff Management',
         'menus' => [

@@ -12,21 +12,19 @@
         @include('backend.dashboard.partials._transactions_chart')
 	@endcan
 	
-	@can('wallet-balance')
+	{{-- @can('wallet-balance')
         @include('backend.dashboard.partials._wallet_balance')
-	@endcan
-    <div class="row g-4 mb-4">
+	@endcan --}}
+    {{-- <div class="row g-4 mb-4">
 
 	    @can('earning-chart')
-		    {{-- Daily Fee Earnings --}}
 		    @include('backend.dashboard.partials._admin_earning_chart')
 	    @endcan
 		   
 	    @can('wallet-growth')
-		    {{-- Wallet Growth Insight --}}
 		    @include('backend.dashboard.partials._wallet_growth')
 	    @endcan
-    </div>
+    </div> --}}
     
     <div class="row g-4 mb-4">
 	    @can('wallet-latest-transactions')

@@ -108,6 +108,37 @@
             </a>
         </li>
 
+
+        <li class="mb-3">
+            <span class="sidebar-parent {{ request()->is('user/settlements*') ? 'active-parent' : '' }}"
+                onclick="toggleChildMenu(this)">
+                <i class="fa-solid fa-chart-line fa-lg me-2"></i>
+                <span class="sidebar-text">Settlements</span>
+                <i class="fa-solid fa-chevron-right arrow float-end"></i>
+            </span>
+            <ul class="list-unstyled ms-3 mt-2 sidebar-child">
+                <li class="mb-2">
+                    <a href="{{ route('user.settlements.index') }}"
+                        class="{{ request()->routeIs('user.settlements.index') ? 'active-link' : '' }}">
+                        <i class="fa-solid fa-circle-dot me-2"></i>
+                        <span class="sidebar-text">Settlements</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a href="{{ route('user.settlements.running-balance') }}" class="{{ request()->routeIs('user.settlements.running-balance') ? 'active-link' : '' }}">
+                        <i class="fa-solid fa-archive me-2"></i>
+                        <span class="sidebar-text">Running Balance</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a href="{{ route('user.settlements.dispursal') }}" class="{{ request()->routeIs('user.settlements.dispursal') ? 'active-link' : '' }}">
+                        <i class="fa-solid fa-archive me-2"></i>
+                        <span class="sidebar-text">Dispursal</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class="mb-3">
             <span class="sidebar-parent {{ request()->is('user/transaction/index*') ? 'active-parent' : '' }}"
                 onclick="toggleChildMenu(this)">

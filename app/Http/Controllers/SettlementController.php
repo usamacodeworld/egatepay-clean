@@ -16,43 +16,73 @@ class SettlementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // ✅ Fetch settlements for the authenticated user
-        $settlements = Settlement::where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->where('status', '!=', 'decline')
-            ->paginate(10);
+    public function index(Request $request)
+{
+    $query = Settlement::where('user_id', Auth::id())
+                ->where('status', '!=', 'decline')
+                ->orderBy('created_at', 'desc');
 
-        // ✅ Return settlements view with data
-        $page_name = 'Settlements';
-        return view('frontend.user.settlements.index', compact('settlements', 'page_name'));
+    // ✅ Date range filter
+    if ($request->filled('daterange')) {
+        $dates = explode(',', $request->daterange);
+        if (count($dates) === 2) {
+            $start = $dates[0];
+            $end = $dates[1];
+            $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
+        }
     }
 
-    public function running_balance()
-    {
-        // ✅ Fetch running balance for the authenticated user
-        $runningBalance = RunningBalance::where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        // ✅ Return running balance view with data
-        $page_name = 'Running Balance';
-        return view('frontend.user.settlements.running_balance', compact('runningBalance', 'page_name'));
+    // ✅ Currency filter (if you have a currency column)
+    if ($request->filled('currency')) {
+        $query->where('currency', $request->currency);
     }
 
-    public function dispursal()
-    {
-        // ✅ Fetch settlements for the authenticated user
-        $settlements = Settlement::where('user_id', Auth::id())
-            ->where('status', 'decline')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+    $settlements = $query->paginate(10);
+    $page_name = 'Settlements';
+    return view('frontend.user.settlements.index', compact('settlements', 'page_name'));
+}
 
-        // ✅ Return settlements view with data
-        $page_name = 'Dispursal';
-        return view('frontend.user.settlements.index', compact('settlements', 'page_name'));
+public function running_balance(Request $request)
+{
+    $query = RunningBalance::where('user_id', Auth::id())
+                ->orderBy('created_at', 'desc');
+
+    // ✅ Date range filter
+    if ($request->filled('daterange')) {
+        $dates = explode(',', $request->daterange);
+        if (count($dates) === 2) {
+            $start = $dates[0];
+            $end = $dates[1];
+            $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
+        }
     }
+
+    $runningBalance = $query->paginate(10);
+    $page_name = 'Running Balance';
+    return view('frontend.user.settlements.running_balance', compact('runningBalance', 'page_name'));
+}
+
+public function dispursal(Request $request)
+{
+    $query = Settlement::where('user_id', Auth::id())
+                ->where('status', 'decline')
+                ->orderBy('created_at', 'desc');
+
+    // ✅ Date range filter
+    if ($request->filled('daterange')) {
+        $dates = explode(',', $request->daterange);
+        if (count($dates) === 2) {
+            $start = $dates[0];
+            $end = $dates[1];
+            $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
+        }
+    }
+
+    $settlements = $query->paginate(10);
+    $page_name = 'Dispursal';
+    return view('frontend.user.settlements.index', compact('settlements', 'page_name'));
+}
+
 
     /**
      * Show the form for creating a new resource.

@@ -51,6 +51,14 @@ use App\Enums\CurrencyEnum;
                                 <x-form.select name="currency" label="{{ __('Currency') }}"
                                     :options="CurrencyEnum::options()" :selected="request('currency')" />
                             </div>
+
+                            <div class="col-md-auto">
+                                  <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                            </div>
+
+
                         </form>
                     </div>
                 </div>

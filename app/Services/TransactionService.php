@@ -155,14 +155,14 @@ class TransactionService
     public function getTransactionStatistics(?int $userId = null): \Illuminate\Support\Collection
     {
         $trxGroups = [
-            'deposit'        => [TrxType::DEPOSIT],
-            'send_money'     => [TrxType::SEND_MONEY],
-            'request_money'  => [TrxType::REQUEST_MONEY],
-            'exchange_money' => [TrxType::EXCHANGE_MONEY],
-            'payment'        => [TrxType::PAYMENT],
-            'withdraw'       => [TrxType::WITHDRAW],
-            'voucher'        => [TrxType::VOUCHER],
-            'rewards'        => [TrxType::REWARD, TrxType::REFERRAL_REWARD],
+            // 'deposit'        => [TrxType::DEPOSIT],
+            // 'send_money'     => [TrxType::SEND_MONEY],
+            // 'request_money'  => [TrxType::REQUEST_MONEY],
+            // 'exchange_money' => [TrxType::EXCHANGE_MONEY],
+            // 'payment'        => [TrxType::PAYMENT],
+            // 'withdraw'       => [TrxType::WITHDRAW],
+            // 'voucher'        => [TrxType::VOUCHER],
+            // 'rewards'        => [TrxType::REWARD, TrxType::REFERRAL_REWARD],
         ];
 
         $transactions = Transaction::select('trx_type', 'amount', 'currency')
