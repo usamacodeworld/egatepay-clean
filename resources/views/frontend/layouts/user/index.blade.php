@@ -43,6 +43,12 @@
         background: #eb4a32 !important;
 
     }
+
+    .payable_amount_alert{
+        background: #eb4a32 !important;
+        border: #eb4a32;
+        color: white !important;
+    }
 </style>
 @if (!request()->routeIs('user.dashboard'))
     <style>
@@ -114,11 +120,11 @@
 
                 <div class="col-xl-9 col-lg-8  main-content @if (!request()->routeIs('user.dashboard')) mt-neg-120 @endif">
                     {{-- kyc notice card --}}
-                    @if (!auth()->user()->kycSubmission || auth()->user()->kycSubmission->status !== KycStatus::APPROVED)
+                    {{-- @if (!auth()->user()->kycSubmission || auth()->user()->kycSubmission->status !== KycStatus::APPROVED)
                         @if (isActive('user.settings.kyc.verify') !== 'active')
                             @include('frontend.user.dashboard.partials._kyc_notice_card')
                         @endif
-                    @endif
+                    @endif --}}
 
                     {{-- content area --}}
                     @yield('content')

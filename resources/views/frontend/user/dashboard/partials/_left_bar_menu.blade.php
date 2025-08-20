@@ -38,6 +38,36 @@
             </a>
         </li>
 
+        <li>
+            <span class="sidebar-parent {{ request()->is('user/settlements*') ? 'active-parent' : '' }}"
+                onclick="toggleDesktopChildMenu(this)">
+                <span>
+                    <i class="fa-solid fa-chart-line me-2"></i> Settlements
+                </span>
+                <i class="fa fa-chevron-right arrow"></i>
+            </span>
+            <ul class="list-unstyled ms-3 mt-2 sidebar-child">
+                <li>
+                    <a href="{{ route('user.settlements.index') }}" class="{{ isActive('user.settlements.index') }}">
+                        <i class="fa-solid fa-circle-dot me-2"></i> Settlements
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('user.settlements.running-balance') }}"
+                        class="{{ isActive('user.settlements.running-balance') }}">
+                        <i class="fa-solid fa-archive me-2"></i> Running Balance
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('user.settlements.dispursal') }}"
+                        class="{{ isActive('user.settlements.dispursal') }}">
+                        <i class="fa-solid fa-archive me-2"></i> Dispursal
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!-- My API Parent -->
         @can('merchant')
             <li>

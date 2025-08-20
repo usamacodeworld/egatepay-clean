@@ -3,17 +3,35 @@
         <div class="navbar-wrap"></div>
 
         <!-- Mobile user menu -->
-        <ul class="user d-flex align-items-center mt-2">
-            <li>
-                <button id="hamburgerBtn" class="hamburger-btn text-dark">
+        <ul class="user d-flex align-items-center justify-content-between mt-2" style="gap: 10px;"> <!-- ✅ Added gap -->
+            <!-- Hamburger Button -->
+            <li class="d-flex align-items-center">
+                <button id="hamburgerBtn" class="hamburger-btn text-dark d-flex align-items-center justify-content-center"
+                    style="height: 40px; width: 40px; border-radius: 50%; background: #f8f9fa; border: 1px solid #ddd;">
                     <i class="fa-solid fa-bars fa-lg"></i>
                 </button>
             </li>
-            <li class="ms-3 position-relative">
-                <a href="javascript:void(0);" id="avatarDropdownBtn">
+
+            <!-- Payable Amount -->
+            <li class="flex-grow-1" style="max-width: 220px;">
+                <div class="payable_amount_alert alert alert-info fw-semibold d-flex align-items-center justify-content-center py-1 px-2"
+                    style="font-size: 13px; border-radius: 8px; margin: 0;"> <!-- ✅ Vertically centered -->
+                    <div class="text-truncate" style="max-width: 200px;">
+                        <i class="fa fa-money-bill-wave me-2"></i>
+                        {{ auth()->user()->payable_amount && auth()->user()->payable_amount > 0
+                            ? 'Payable: $' . number_format(auth()->user()->payable_amount, 2)
+                            : 'No payable amount.' }}
+                    </div>
+                </div>
+            </li>
+
+            <!-- Avatar -->
+            <li class="position-relative d-flex align-items-center">
+                <a href="javascript:void(0);" id="avatarDropdownBtn"
+                    class="d-flex align-items-center justify-content-center">
                     <img class="user-1"
                         src="{{ asset(auth()->user()->avatar_alt ?? 'general/static/default/user.png') }}"
-                        alt="img">
+                        alt="User" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #ddd;">
                 </a>
                 <!-- Dropdown Menu -->
                 <ul id="avatarDropdown" class="avatar-dropdown list-unstyled p-2 bg-dark text-white">
@@ -36,6 +54,7 @@
         </ul>
     </div>
 </header>
+
 
 <!-- Mobile Sidebar -->
 <div id="mobileSidebar" class="mobile-sidebar">

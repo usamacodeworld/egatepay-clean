@@ -43,6 +43,7 @@ use App\Http\Controllers\Backend\VirtualCardFeeSettingController;
 use App\Http\Controllers\Backend\WithdrawController;
 use App\Http\Controllers\Backend\WithdrawMethodController;
 use App\Http\Controllers\Backend\WithdrawScheduleController;
+use App\Http\Controllers\SettlementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +61,7 @@ Route::prefix(setting('admin_prefix'))->as('admin.')->group(function () {
 
     // ========================== 🌟 Dashboard =============================
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/user/manage/settlments/store', [SettlementController::class, 'store'])->name('user.manage.settlement.store');
 
     // ========================== 👥 User Management ==========================
     Route::prefix('user')->as('user.')->controller(UserManageController::class)->group(function () {

@@ -34,6 +34,7 @@ use App\Http\Controllers\Frontend\VoucherController;
 use App\Http\Controllers\Frontend\WalletController;
 use App\Http\Controllers\Frontend\WithdrawAccountController;
 use App\Http\Controllers\Frontend\WithdrawController;
+use App\Http\Controllers\SettlementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -101,6 +102,10 @@ Route::post('/subscribe', SubscriberController::class)->name('subscribe.submit')
 */
 Route::prefix('user')->as('user.')->middleware(['auth', 'account.status.check', 'verified', '2fa', 'block.ip'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/settlements', [SettlementController::class, 'index'])->name('settlements.index');
+    Route::get('/settlements/running-balance', [SettlementController::class, 'running_balance'])->name('settlements.running-balance');
+    Route::get('/settlements/dispursal', [SettlementController::class, 'dispursal'])->name('settlements.dispursal');
+
 
     // ========================== User Settings Routes =============================
     Route::prefix('settings')->as('settings.')->controller(SettingController::class)->group(function () {

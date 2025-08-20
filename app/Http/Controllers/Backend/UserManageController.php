@@ -14,6 +14,7 @@ use App\Enums\UserStatus;
 use App\Exceptions\NotifyErrorException;
 use App\Models\KycSubmission;
 use App\Models\Referral;
+use App\Models\Settlement;
 use App\Models\Ticket;
 use App\Models\Transaction as TransactionModel;
 use App\Models\User;
@@ -428,7 +429,15 @@ class UserManageController extends BaseController
 
     protected function handleSettlements(Request $request, User $user)
     {
-        return '1';
+        $settlements = Settlement::where('user_id', $user->id)
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('transaction_id', 'like', '%' . $request->search . '%');
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('backend.user.manage.settlements', compact('user', 'settlements'));
     }

@@ -3,7 +3,9 @@
 
 @section('content')
     <div class="mb-3">
-        <h4 class="fw-bold">{{ __('Manage Of :type :user_name', ['user_name' => $user->name, 'type' => $user->isMerchant() ? __('Merchant') : __('User')]) }}</h4>
+        <h4 class="fw-bold">
+            {{ __('Manage Of :type :user_name', ['user_name' => $user->name, 'type' => $user->isMerchant() ? __('Merchant') : __('User')]) }}
+        </h4>
     </div>
 
     <div class="row g-3">

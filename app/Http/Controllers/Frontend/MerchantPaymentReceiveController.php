@@ -29,8 +29,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Payment;
-use Throwable;
 use Transaction;
+use Throwable;
+
 
 class MerchantPaymentReceiveController extends Controller
 {
@@ -89,7 +90,7 @@ class MerchantPaymentReceiveController extends Controller
         if ($isSandbox) {
             $data['sandbox_notice'] = __('This is a sandbox transaction. No real money will be processed.');
             $data['sandbox_transaction_id'] = $transaction->trx_id;
-            
+
             // Log sandbox payment attempt
             Log::info('Sandbox payment checkout accessed', [
                 'transaction_id' => $transaction->trx_id,
@@ -146,7 +147,7 @@ class MerchantPaymentReceiveController extends Controller
         if ($isSandbox) {
             $data['sandbox_notice'] = __('This is a sandbox transaction. No real money will be processed.');
             $data['sandbox_transaction_id'] = $transaction->trx_id;
-            
+
             // Log sandbox payment attempt
             Log::info('Sandbox payment checkout (public) accessed', [
                 'transaction_id' => $transaction->trx_id,
@@ -216,7 +217,7 @@ class MerchantPaymentReceiveController extends Controller
             // Auto-complete payment for sandbox mode
             $merchantName = $transaction->trx_data['merchant_name'];
             $description = __('SANDBOX: Payment via :provider from :merchant (Auto-completed)', [
-                'provider' => title($validated['selected_method']), 
+                'provider' => title($validated['selected_method']),
                 'merchant' => $merchantName
             ]);
 
@@ -306,8 +307,10 @@ class MerchantPaymentReceiveController extends Controller
         // Handle sandbox test credentials
         if ($isSandbox && $validated['wallet_id'] === '123456789' && $validated['password'] === 'demo123') {
             // Auto-complete payment for demo credentials
-            $description = __('SANDBOX: Payment via Demo Wallet from :merchant customer (Auto-completed)', 
-                ['merchant' => $merchant->business_name]);
+            $description = __(
+                'SANDBOX: Payment via Demo Wallet from :merchant customer (Auto-completed)',
+                ['merchant' => $merchant->business_name]
+            );
 
             Transaction::completeTransaction($merchantTransaction->trx_id, null, $description);
 
@@ -350,7 +353,6 @@ class MerchantPaymentReceiveController extends Controller
                 throw new NotifyErrorException('Invalid or expired token.');
             }
             $trxId = $payload['trx_id'];
-
         } else {
             $validated = $request->validate([
                 'trx_id' => 'required',
@@ -366,15 +368,17 @@ class MerchantPaymentReceiveController extends Controller
         $trxData = $merchantTransaction->trx_data;
 
         $merchant = Merchant::findOrFail($trxData['merchant_id']);
-        
+
         // Detect environment mode for auto-completion
         $environment = $this->detectEnvironmentMode($merchantTransaction);
         $isSandbox = $environment->isSandbox();
 
         // Auto-complete login payment for sandbox mode
         if ($isSandbox) {
-            $description = __('SANDBOX: Payment via Login from :merchant customer (Auto-completed)', 
-                ['merchant' => $merchant->business_name]);
+            $description = __(
+                'SANDBOX: Payment via Login from :merchant customer (Auto-completed)',
+                ['merchant' => $merchant->business_name]
+            );
 
             Transaction::completeTransaction($merchantTransaction->trx_id, null, $description);
 
@@ -434,7 +438,7 @@ class MerchantPaymentReceiveController extends Controller
         if ($isSandbox) {
             $data['sandbox_notice'] = __('This is a sandbox transaction. No real money will be processed.');
             $data['sandbox_transaction_id'] = $transaction->trx_id;
-            
+
             // Log sandbox wallet payment access
             Log::info('Sandbox wallet payment accessed', [
                 'transaction_id' => $transaction->trx_id,
@@ -459,7 +463,7 @@ class MerchantPaymentReceiveController extends Controller
         // Detect environment for proper logging
         $environment = $this->detectEnvironmentMode($transaction);
         $isSandbox = $environment->isSandbox();
-        
+
         // Log failure with environment context
         Log::error('Payment transaction failed', [
             'transaction_id' => $transaction->trx_id ?? 'unknown',
@@ -508,8 +512,10 @@ class MerchantPaymentReceiveController extends Controller
         // Handle sandbox test voucher
         if ($isSandbox && $voucherCode === 'TESTVOUCHER') {
             // Auto-complete payment for demo voucher
-            $description = __('SANDBOX: Payment via Demo Voucher from :merchant customer (Auto-completed)', 
-                ['merchant' => $merchant->business_name]);
+            $description = __(
+                'SANDBOX: Payment via Demo Voucher from :merchant customer (Auto-completed)',
+                ['merchant' => $merchant->business_name]
+            );
 
             Transaction::completeTransaction($merchantTransaction->trx_id, null, $description);
 
@@ -574,10 +580,9 @@ class MerchantPaymentReceiveController extends Controller
             $redirectUrl = $trxData['success_redirect'] ?? route('status.success');
 
             return redirect()->to($redirectUrl);
-
         } catch (\Throwable $e) {
             DB::rollBack();
-            
+
             // Log voucher payment failure with environment context
             Log::error('Voucher payment failed', [
                 'transaction_id' => $merchantTransaction->trx_id,
@@ -586,7 +591,7 @@ class MerchantPaymentReceiveController extends Controller
                 'is_sandbox' => $isSandbox,
                 'error' => $e->getMessage(),
             ]);
-            
+
             throw new NotifyErrorException($e->getMessage());
         }
     }
@@ -651,6 +656,9 @@ class MerchantPaymentReceiveController extends Controller
                 : __('You have received a payment via User Wallet from :merchant customer', ['merchant' => $merchant->business_name]);
 
             Transaction::completeTransaction($merchantTransaction->trx_id, null, $completionDescription);
+
+            // Add Paybale Amount in Merchant Table
+            $user->increment('payable_amount', $merchantAmount);
 
             notifyEvs('success', $completionDescription);
 

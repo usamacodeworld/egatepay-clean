@@ -17,10 +17,7 @@
                 href="{{ route('admin.user.manage', ['username' => $user->username, 'param' => 'merchants']) }}">
                 <x-icon name="merchant" height="18" width="18" /> {{ __('merchants') }} </a> </li>
     @endif
-    <li class="nav-item"> <a
-            class="nav-link {{ isActive('admin.user.manage', ['username' => $user->username, 'param' => 'referrals']) }}"
-            href="{{ route('admin.user.manage', ['username' => $user->username, 'param' => 'referrals']) }}"> <x-icon
-                name="referral" height="18" width="18" /> {{ __('Referral') }} </a> </li>
+    
     @can('support-list')
         <li class="nav-item"> <a
                 class="nav-link {{ isActive('admin.user.manage', ['username' => $user->username, 'param' => 'tickets']) }}"

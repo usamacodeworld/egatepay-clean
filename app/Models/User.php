@@ -49,6 +49,7 @@ class User extends Authenticatable
         'status',
         'password',
         'email_verified_at',
+        'payable_amount',
     ];
 
     /**
