@@ -62,7 +62,8 @@ Route::prefix(setting('admin_prefix'))->as('admin.')->group(function () {
     // ========================== 🌟 Dashboard =============================
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/user/manage/settlments/store', [SettlementController::class, 'store'])->name('user.manage.settlement.store');
-
+    Route::post('/user/settlement/status/update', [SettlementController::class, 'updateStatus'])
+        ->name('settlement.update.status');
     // ========================== 👥 User Management ==========================
     Route::prefix('user')->as('user.')->controller(UserManageController::class)->group(function () {
 
@@ -259,7 +260,6 @@ Route::prefix(setting('admin_prefix'))->as('admin.')->group(function () {
             Route::get('{template}/edit', 'edit')->name('edit');
             Route::put('{template}/channel/{channel}', 'updateChannel')->name('update');
         });
-
     });
 
     // ======================= 🌎 Language Management =======================
@@ -300,7 +300,6 @@ Route::prefix(setting('admin_prefix'))->as('admin.')->group(function () {
             // Footer Item Routes
             Route::resource('item', FooterItemController::class)->except(['show', 'create']);
             Route::post('item/position-update', [FooterItemController::class, 'positionUpdate'])->name('item.position-update');
-
         });
     });
 
@@ -333,9 +332,8 @@ Route::prefix(setting('admin_prefix'))->as('admin.')->group(function () {
         Route::get('/optimize', 'optimize')->name('optimize');
         Route::get('/clear-cache', 'clearCache')->name('clear-cache');
         Route::post('/smtp-connection-check', 'smtpConnectionCheck')->name('smtp-connection-check');
-        
+
         // Menu search functionality
         Route::get('menu-search', 'getMenusForSearch')->name('menu-search');
     });
-
 });

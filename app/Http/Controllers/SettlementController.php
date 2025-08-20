@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Settlement;
 use App\Models\Merchant;
 use App\Models\User;
+use App\Models\RunningBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class SettlementController extends Controller
         // ✅ Fetch settlements for the authenticated user
         $settlements = Settlement::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
+            ->where('status', '!=', 'decline')
             ->paginate(10);
 
         // ✅ Return settlements view with data
@@ -27,11 +29,23 @@ class SettlementController extends Controller
         return view('frontend.user.settlements.index', compact('settlements', 'page_name'));
     }
 
+    public function running_balance()
+    {
+        // ✅ Fetch running balance for the authenticated user
+        $runningBalance = RunningBalance::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // ✅ Return running balance view with data
+        $page_name = 'Running Balance';
+        return view('frontend.user.settlements.running_balance', compact('runningBalance', 'page_name'));
+    }
+
     public function dispursal()
     {
         // ✅ Fetch settlements for the authenticated user
         $settlements = Settlement::where('user_id', Auth::id())
-            ->where('status', 'rejected')
+            ->where('status', 'decline')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -59,7 +73,7 @@ class SettlementController extends Controller
             'merchant_id'        => 'required|exists:merchants,id',
             'gross_amount'       => 'required|numeric|min:1',
             'tax_percentage'     => 'nullable|numeric|min:0|max:100',
-            'vat_percentage'     => 'nullable|numeric|min:0|max:100',
+            'rolling_balance_percentage'     => 'nullable|numeric|min:0|max:100',
             'gateway_fee_percentage' => 'nullable|numeric|min:0|max:100',
             'platform_commission' => 'nullable|numeric|min:0',
             'other_charges'      => 'nullable|numeric|min:0',
@@ -71,6 +85,7 @@ class SettlementController extends Controller
             'exchange_rate'      => 'nullable|numeric|min:0',
             'payment_receipts.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'remarks'            => 'nullable|string',
+            'status'             => 'nullable|in:pending,processing,approved,paid,decline',
         ]);
 
         try {
@@ -87,7 +102,7 @@ class SettlementController extends Controller
             // ✅ Calculate amounts
             $grossAmount = $validated['gross_amount'];
             $taxPercentage = $validated['tax_percentage'] ?? 0;
-            $vatPercentage = $validated['vat_percentage'] ?? 0;
+            $vatPercentage = $validated['rolling_balance_percentage'] ?? 0;
             $gatewayFeePercentage = $validated['gateway_fee_percentage'] ?? 0;
             $platformCommission = $validated['platform_commission'] ?? 0;
             $otherCharges = $validated['other_charges'] ?? 0;
@@ -137,8 +152,8 @@ class SettlementController extends Controller
                 'gross_amount'        => $grossAmount,
                 'tax_percentage'      => $taxPercentage,
                 'tax_amount'          => $taxAmount,
-                'vat_percentage'      => $vatPercentage,
-                'vat_amount'          => $vatAmount,
+                'rolling_balance_percentage'      => $vatPercentage,
+                'rolling_balance_amount'          => $vatAmount,
                 'gateway_fee_percentage' => $gatewayFeePercentage,
                 'gateway_fee'        => $gatewayFee,
                 'platform_commission' => $platformCommission,
@@ -147,12 +162,25 @@ class SettlementController extends Controller
                 'net_amount'        => $netAmount,
 
                 'payment_receipts'   => !empty($uploadedReceipts) ? json_encode($uploadedReceipts) : null,
-                'status'            => 'pending',
+                'status'            => $validated['status'] ?? 'pending',
                 'remarks'           => $validated['remarks'] ?? null,
             ]);
 
             $user = User::where('id', $merchant->user_id)->first();
-            if ($user) {
+            if ($user && $validated['status'] != 'decline') {
+                $closingBalance = $user->payable_amount - $grossAmount; // assuming settlement reduces running balance
+
+                RunningBalance::create([
+                    'user_id' => $user->id,
+                    'settlement_id' => $settlement->id,
+                    'opening_balance' => $user->payable_amount,
+                    'transaction_amount' => $grossAmount,
+                    'closing_balance' => $closingBalance,
+                    'transaction_type' => 'debit', // debit for settlement
+                    'description' => 'Settlement processed',
+                ]);
+
+                // ✅ Deduct payable amount
                 $user->decrement('payable_amount', $grossAmount);
             }
 
@@ -170,6 +198,55 @@ class SettlementController extends Controller
                 'status'  => false,
                 'message' => 'Failed to create settlement.',
                 'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'settlement_id' => 'required|exists:settlements,id',
+            'status' => 'required|in:pending,processing,approved,paid,decline',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $settlement = Settlement::findOrFail($request->settlement_id);
+
+            // If already declined or paid, don't allow re-updates
+            if ($settlement->status === $request->status) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Settlement status is already ' . ucfirst($request->status),
+                ], 400);
+            }
+
+            $user = User::findOrFail($settlement->user_id);
+
+            // If settlement is declined → return gross_amount to user payable_amount
+            if ($request->status === 'decline') {
+                $user->payable_amount += $settlement->gross_amount;
+                $user->save();
+            }
+
+            // Update settlement status
+            $settlement->status = $request->status;
+            $settlement->save();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Settlement status updated successfully.',
+                'new_status' => ucfirst($settlement->status),
+                'payable_amount' => number_format($user->payable_amount, 2)
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong! ' . $e->getMessage(),
             ], 500);
         }
     }

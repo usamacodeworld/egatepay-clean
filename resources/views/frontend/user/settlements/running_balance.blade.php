@@ -57,59 +57,48 @@
                     </div>
 
                     <!-- Transactions Table -->
-                    <div class="table-responsive shadow-sm mt-4">
+                    <!-- Running Balance Table -->
+                    <div class="table-responsive shadow-sm mt-5">
+                        <h5 class="mb-3 text-white">Running Balance History</h5>
                         <table class="table table-bordered table-hover">
-                            <thead class="table-primary text-center">
+                            <thead class="table-info text-center">
                                 <tr>
-                                    <th>Settlement ID</th>
+                                    <th>#</th>
                                     <th>Date</th>
-                                    <th>Gross</th>
-                                    <th>Tax</th>
-                                    <th>Rolling Balance</th>
-                                    <th>Gateway Fee</th>
-                                    <th>Net</th>
-                                    <th>Status</th>
-                                    <th>Receipt</th>
+                                    <th>Settlement ID</th>
+                                    <th>Previous Balance</th>
+                                    <th>Settlement Amount</th>
+                                    <th>Current Balance</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($settlements as $settlement)
+                                @forelse($runningBalance as $key => $balance)
                                     <tr>
-                                        <td>{{ $settlement->settlement_id }}</td>
-                                        <td>{{ $settlement->settlement_date->format('d M Y') }}</td>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $balance->created_at->format('d M Y') }}</td>
+                                        <td>{{ $balance->settlement_id }}</td>
                                         <td class="text-primary fw-semibold">
-                                            ${{ number_format($settlement->gross_amount, 2) }}</td>
-                                        <td class="text-danger">${{ number_format($settlement->tax_amount, 2) }}</td>
-                                        <td class="text-danger">${{ number_format($settlement->rolling_balance_amount, 2) }}</td>
-                                        <td class="text-warning">${{ number_format($settlement->gateway_fee, 2) }}</td>
-                                        <td><strong
-                                                class="text-success">${{ number_format($settlement->net_amount, 2) }}</strong>
+                                            ${{ number_format($balance->opening_balance, 2) }}
                                         </td>
-                                        <td>
-                                            <span
-                                                class="badge bg-{{ $settlement->status === 'paid' ? 'success' : ($settlement->status === 'pending' ? 'warning' : 'danger') }}">
-                                                {{ ucfirst($settlement->status) }}
-                                            </span>
+                                        <td class="text-success fw-semibold">
+                                            ${{ number_format($balance->transaction_amount, 2) }}
                                         </td>
-                                        <td>
-                                            @if ($settlement->payment_receipts)
-                                                @foreach (json_decode($settlement->payment_receipts) as $receipt)
-                                                    <a href="{{ asset('storage/' . $receipt) }}" target="_blank"
-                                                        class="badge bg-primary">View</a><br>
-                                                @endforeach
-                                            @else
-                                                —
-                                            @endif
+                                        <td class="text-warning fw-semibold">
+                                            ${{ number_format($balance->closing_balance, 2) }}
                                         </td>
+                                        <td>{{ $balance->description ?? 'N/A' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="12" class="text-center text-muted">No settlements found</td>
+                                        <td colspan="7" class="text-center text-muted">No running balance records found
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
-                    </div> <!-- table-responsive -->
+                    </div>
+                    <!-- table-responsive -->
                 </div> <!-- card-body -->
             </div> <!-- card -->
         </div> <!-- col-12 -->

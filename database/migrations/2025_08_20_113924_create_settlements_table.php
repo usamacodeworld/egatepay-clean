@@ -38,8 +38,8 @@ return new class extends Migration
             $table->decimal('gross_amount', 15, 2);
             $table->decimal('tax_percentage', 5, 2)->default(0);
             $table->decimal('tax_amount', 15, 2)->default(0);
-            $table->decimal('vat_percentage', 5, 2)->default(0);
-            $table->decimal('vat_amount', 15, 2)->default(0);
+            $table->decimal('rolling_balance_percentage', 5, 2)->default(0);
+            $table->decimal('rolling_balance_amount', 15, 2)->default(0);
             $table->decimal('gateway_fee_percentage', 5, 2)->default(0);
             $table->decimal('gateway_fee', 15, 2)->default(0);
             $table->decimal('platform_commission', 15, 2)->default(0);
@@ -51,7 +51,7 @@ return new class extends Migration
             $table->json('payment_receipts')->nullable();
 
             // Status & Workflow
-            $table->enum('status', ['pending', 'processing', 'approved', 'rejected', 'paid'])->default('pending');
+            $table->enum('status', ['pending', 'processing', 'approved', 'paid', 'decline'])->default('pending');
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('processing_at')->nullable();
             $table->timestamp('approved_at')->nullable();
