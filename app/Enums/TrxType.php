@@ -72,9 +72,10 @@ enum TrxType: string
     {
         return match ($this) {
             self::DEPOSIT, self::ADD_BALANCE , self::CARD_TOPUP => 'info',
-            self::RECEIVE_MONEY, self::WITHDRAW , self::CARD_WITHDRAW => 'primary',
+            self::RECEIVE_MONEY, self::WITHDRAW , self::CARD_WITHDRAW, self::RECEIVE_PAYMENT_TODAY => 'primary',
             self::REQUEST_MONEY  => 'danger',
             self::EXCHANGE_MONEY => 'success',
+            self::RECEIVE_PAYMENT_TODAY => 'success',
             self::PAYMENT        => 'warning',
             default              => 'secondary',
         };
@@ -115,12 +116,14 @@ enum TrxType: string
         return match ($this) {
             self::DEPOSIT          => 'deposit',
             self::SEND_MONEY       => 'send-money',
+            
             self::RECEIVE_MONEY    => 'receive-money',
             self::REQUEST_MONEY    => 'request-money-1',
             self::EXCHANGE_MONEY   => 'exchange-money',
             self::VOUCHER          => 'voucher',
             self::PAYMENT          => 'payment',
             self::RECEIVE_PAYMENT  => 'receive-payment-1',
+            self::RECEIVE_PAYMENT_TODAY  => 'receive-payment-1',
             self::ADD_BALANCE      => 'add-balance',
             self::SUBTRACT_BALANCE => 'subtract-balance',
             self::WITHDRAW         => 'withdraw',

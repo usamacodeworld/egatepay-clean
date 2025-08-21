@@ -5,7 +5,6 @@
 @include('frontend.user.dashboard.partials._amount_card')
 {{-- chart card --}}
 @include('frontend.user.dashboard.partials._chart_card')
-@include('frontend.user.dashboard.partials._recent_transactions')
 @endsection
 
 @push('scripts')

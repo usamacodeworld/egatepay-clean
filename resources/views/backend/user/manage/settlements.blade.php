@@ -27,7 +27,13 @@
                                 @php
                                     $merchant = \App\Models\Merchant::where('user_id', $user->id)->first();
                                 @endphp
-                                <input type="hidden" name="merchant_id" value="{{ $merchant->id }}">
+
+                                @if ($merchant)
+                                    <input type="hidden" name="merchant_id" value="{{ $merchant->id }}">
+                                @else
+                                    <input type="hidden" name="merchant_id" value="">
+                                @endif
+
 
                                 {{-- Payable Amount Alert --}}
                                 <div class="alert alert-info fw-semibold d-flex justify-content-between align-items-center">

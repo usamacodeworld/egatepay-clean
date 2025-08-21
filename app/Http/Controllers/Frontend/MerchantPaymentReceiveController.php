@@ -281,6 +281,7 @@ class MerchantPaymentReceiveController extends Controller
      */
     public function completePayment(Request $request): RedirectResponse
     {
+        return $request;
         $voucherResult = $this->voucherPayment($request);
         if ($voucherResult instanceof \Illuminate\Http\RedirectResponse) {
             return $voucherResult;
@@ -313,7 +314,8 @@ class MerchantPaymentReceiveController extends Controller
             );
 
             Transaction::completeTransaction($merchantTransaction->trx_id, null, $description);
-
+            // Add Paybale Amount in Merchant Table
+            $user->increment('payable_amount', $merchantAmount);
             // Log sandbox demo payment
             Log::info('Sandbox demo wallet payment completed', [
                 'transaction_id' => $merchantTransaction->trx_id,

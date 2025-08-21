@@ -58,6 +58,7 @@ class UserManageController extends BaseController
     public function manageUser(Request $request, string $username, ?string $param = 'statistics')
     {
         $user = User::where('username', $username)->firstOrFail();
+        // return $user->features;
 
         return match ($param) {
             'transactions' => $this->handleTransactions($request, $user),

@@ -23,7 +23,6 @@
                         <tr>
                             <th>{{ __('Name | Username') }}</th>
                             <th>{{ __('Email | Status') }}</th>
-                            <th>{{ __('KYC Info') }}</th>
                             <th>{{ __('Joined At') }}</th>
                             <th>{{ __('Last Login') }}</th>
                             @can('user-manage')
@@ -71,16 +70,6 @@
                                     <div class="small text-muted">
                                         <span class="text-uppercase badge bg-{{ $user->email_verified_at ? 'success' : 'danger' }}">
                                             {{ $user->email_verified_at ? __('Verified') : __('Unverified') }}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        {{ $kycSubmission ? __('Document Type: :name', ['name' => $kycTitle]) : __('No KYC document submitted') }}
-                                    </div>
-                                    <div class="small text-muted">
-                                        <span class="text-uppercase badge bg-{{ $badgeColor }}">
-                                            {{ $statusText }}
                                         </span>
                                     </div>
                                 </td>

@@ -6,6 +6,7 @@ use App\Enums\MerchantStatus;
 use App\Enums\TrxStatus;
 use App\Enums\TrxType;
 use App\Http\Controllers\Controller;
+use App\Models\Settlement;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -36,13 +37,111 @@ class DashboardController extends Controller
 
         $transactions = $user->transactions()->latest()->take(3)->get();
 
+        $todayTotal = $user->transactions()
+            ->where('status', TrxStatus::COMPLETED)
+            ->where('trx_type', 'receive_payment')
+            ->whereDate('created_at', now()->toDateString())
+            ->sum('amount');
+
+        $card_month_to_date = $user->transactions()
+            ->where('status', TrxStatus::COMPLETED)
+            ->where('trx_type', 'receive_payment')
+            ->where('provider', 'card')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+        $card_all_processed = $user->transactions()
+            ->where('status', TrxStatus::COMPLETED)
+            ->where('trx_type', 'receive_payment')
+            ->where('provider', 'card')
+            ->sum('amount');
+
+
+        $mobile_month_to_date = $user->transactions()
+            ->where('status', TrxStatus::COMPLETED)
+            ->where('trx_type', 'receive_payment')
+            ->where('provider', 'mobile')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+        $mobile_all_processed = $user->transactions()
+            ->where('status', TrxStatus::COMPLETED)
+            ->where('trx_type', 'receive_payment')
+            ->where('provider', 'mobile')
+            ->sum('amount');
+
+
+        $payouts_month_to_date = Settlement::where('user_id', $user->id)
+            ->where('status', 'approved')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('gross_amount');
+
+        $payouts_all_processed = Settlement::where('user_id', $user->id)
+            ->where('status', 'approved')
+            ->sum('gross_amount');
+
+
+        $disbursals_month_to_date = Settlement::where('user_id', $user->id)
+            ->where('status', 'decline')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('gross_amount');
+
+        $disbursals_all_processed = Settlement::where('user_id', $user->id)
+            ->where('status', 'decline')
+            ->sum('gross_amount');
+
+        $dailyData = $user->transactions()
+            ->selectRaw('DATE(created_at) as date, SUM(amount) as total_amount, COUNT(*) as trx_count')
+            ->where('status', TrxStatus::COMPLETED)
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $dates = $dailyData->pluck('date');
+        $dailyVolumes = $dailyData->pluck('total_amount');
+        $dailyTrxCounts = $dailyData->pluck('trx_count');
+
+
+        $weeklyData = $user->transactions()
+            ->selectRaw('YEARWEEK(created_at, 1) as week, SUM(amount) as total_amount, COUNT(*) as trx_count')
+            ->where('status', TrxStatus::COMPLETED)
+            ->groupBy('week')
+            ->orderBy('week', 'asc')
+            ->get();
+
+        $weeks = $weeklyData->pluck('week');
+        $weeklyVolumes = $weeklyData->pluck('total_amount');
+        $weeklyTrxCounts = $weeklyData->pluck('trx_count');
+
+
         return view('frontend.user.dashboard.index', compact(
             'statistics',
             'sortedDeposits',
             'sortedWithdrawals',
             'totalSuccessDeposit',
             'totalSuccessWithdraw',
-            'transactions'
+            'transactions',
+            'todayTotal',
+            'card_month_to_date',
+            'card_all_processed',
+            'mobile_month_to_date',
+            'mobile_all_processed',
+            'payouts_month_to_date',
+            'payouts_all_processed',
+            'disbursals_month_to_date',
+            'disbursals_all_processed',
+            'dailyData',
+            'dates',
+            'dailyVolumes',
+            'dailyTrxCounts',
+            'weeklyData',
+            'weeks',
+            'weeklyVolumes',
+            'weeklyTrxCounts'
         ));
     }
 
